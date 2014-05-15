@@ -1,104 +1,24 @@
 # {#title}
 
 <h1>
-    Intro to Haskell<br>
-    for Erlangers
+    Beginning Haskell
 </h1>
 <h3>
     Bob Ippolito (<a href="https://twitter.com/etrepum">@etrepum</a>)<br>
-    Erlang Factory SF<br>
-    March 7, 2014
+    BayHac 2014
 </h3>
 <h4>
-[bob.ippoli.to/haskell-for-erlangers-2014]
+[bob.ippoli.to/beginning-haskell-bayhac-2014]
 </h4>
 
 # Who am I?
 
-- Not classically trained in CS
-- Erlang user since 2006 (Mochi Media, mochiweb, etc.)
 - Haskell user since 2012
   (ported [exercism.io](http://exercism.io) curriculum)
-- Currently teaching web technologies to teenagers with
-  [Mission Bit](http://www.missionbit.com/)
+- Spending most of my time with
+  [Mission Bit](http://www.missionbit.com/), teaching
+  after school coding classes (but not in Haskell... yet)
 - Doing a bit of advising/investing in startups
-
-# Why learn Haskell?
-
-- I learn a lot of from studying new languages
-- Types are supposed to help you write better software
-- I like QuickCheck and Dialyzer
-- Good support for parallelism and concurrency
-- Will help me understand more CS papers
-
-# {#cost-of-concurrency}
-
-RAM footprint per unit of concurrency (approx)
-
-<table id="concurrency-table">
-<tr class="haskell">
-    <td class="num">1.3KB</td>
-    <td class="name">
-        <div class="bar-ctr"><div class="bar"></div></div>
-        <span>Haskell ThreadId + MVar (GHC 7.6.3, 64-bit)</span>
-    </td>
-</tr>
-<tr class="erlang">
-    <td class="num">2.6 KB</td>
-    <td class="name">
-        <div class="bar-ctr"><div class="bar"></div></div>
-        <span>Erlang process (64-bit)</span>
-    </td>
-</tr>
-<tr class="go">
-    <td class="num">8.0 KB</td>
-    <td class="name">
-        <div class="bar-ctr"><div class="bar"></div></div>
-        <span>Go goroutine</span>
-    </td>
-    <!-- http://golang.org/doc/go1.2#stack_size -->
-</tr>
-<tr class="c-min">
-    <td class="num">9.0 KB</td>
-    <td class="name">
-        <div class="bar-ctr"><div class="bar"></div></div>
-        <span>C pthread (minimum, 64-bit Mac OS X)</span>
-    </td>
-    <!-- http://opensource.apple.com/source/Libc/Libc-594.9.5/include/limits.h -->
-</tr>
-<tr class="java-min">
-    <td class="num">64.0 KB</td>
-    <td class="name">
-        <div class="bar-ctr"><div class="bar"></div></div>
-        <span>Java thread stack (minimum)</span>
-    </td>
-    <!-- http://www.oracle.com/technetwork/java/hotspotfaq-138619.html#threads_oom -->
-</tr>
-<tr class="placeholder"><td colspan="2"><hr/></td></td>
-<tr class="c">
-    <td class="num">513 KB</td>
-    <td class="name">
-        <div class="bar-ctr"><div class="bar"></div></div>
-        <span>C pthread (default, 64-bit Mac OS X)</span>
-    </td>
-    <!-- https://developer.apple.com/library/mac/documentation/cocoa/conceptual/Multithreading/CreatingThreads/CreatingThreads.html#//apple_ref/doc/uid/10000057i-CH15-SW7 -->
-</tr>
-<tr class="java">
-    <td class="num">1024 KB</td>
-    <td class="name">
-        <div class="bar-ctr"><div class="bar"></div></div>
-        <span>Java thread stack (default)</span>
-    </td>
-    <!-- http://www.oracle.com/technetwork/java/hotspotfaq-138619.html#threads_oom -->
-</tr>
-</table>
-
-# Starting out
-
-- Intimidated by Haskell for years
-- Took a class while at Facebook
-- Read several books
-- Deliberate practice
 
 # Haskell's Appeal
 
@@ -107,196 +27,6 @@ RAM footprint per unit of concurrency (approx)
 - Type system makes maintenance easier
 - Nice syntax (not too heavy or lightweight)
 - Fantastic community & ecosystem
-
-# Haskell {#haskell-history}
-
-<!-- http://www.haskell.org/haskellwiki/Haskell_Brooks_Curry -->
-<figure>
-<img src="img/HaskellBCurry.jpg">
-<figcaption>**Haskell** B. Curry</figcaption>
-</figure>
-
-# Early History
-
-<!-- http://www.haskell.org/onlinereport/preface-jfp.html
-     http://research.microsoft.com/en-us/um/people/simonpj/papers/history-of-haskell/history.pdf
--->
-1987
-~   More than a dozen non-strict FP languages in use
-~   FCPA '87 meeting (Peyton Jones, Hudak, et. al.)
-~   Formed FPLang committee
-~   Wanted to base language on Miranda, but Turner declined
-1988
-~   Chose the name Haskell
-~   Hudak and Wadler chosen to be editors of the report
-1990 (April 1st!)
-~   Haskell 1.0 report published (125 pages)
-
-# {#ifip-1992}
-
-<!-- extracted from history.pdf -->
-<figure>
-<img src="img/ifip-1992.jpg" />
-<figcaption>IFIP 1992 Working Group</figcaption>
-</figure>
-
-# {#ifip-1992-erl}
-
-<!-- extracted from history.pdf -->
-<figure>
-<img src="img/ifip-1992-erl.jpg" />
-<figcaption>John Hughes (QuickCheck), Philip Wadler (Subtyping for Erlang)</figcaption>
-</figure>
-
-# Evolution
-
-1992
-~   Glasgow Haskell Compiler (GHC)
-1996
-~   Haskell 1.3 - Monadic I/O, seq, strictness annotations
-1999
-~   Haskell 98 - Commitment to stability
-2002
-~   Revised Haskell 98 (260 pages)
-2010
-~   Haskell 2010 (300 pages)
-
-# Domain
-
-**General Purpose**
-
-* Very effective for parsing and compilation
-* Great for DSEL (Domain Specific Embedded Languages)
-* Has been popular in academia for some time
-* Becoming more popular in industry
-
-# Commercial Use
-<!-- http://www.haskell.org/haskellwiki/Haskell_in_industry -->
-
-Internet
-~   [Facebook](https://skillsmatter.com/skillscasts/4429-simon-marlow) - 
-    Haxl rule engine "fighting spam with pure functions"
-Biotech
-~   [Amgen](http://cufp.galois.com/2008/abstracts.html#BalabanDavid) -
-    informatics, simulation
-Finance
-~   [Credit Suisse](http://cufp.galois.com/2006/abstracts.html#HowardMansell) -
-    quantitative modeling
-~   [Barclays](http://lambda-the-ultimate.org/node/3331) -
-    DSEL for exotic equity derivatives
-~   [Deutsche Bank](http://cufp.galois.com/2008/abstracts.html#PolakowJeff) - 
-    trading group infrastructure
-~   [Tsuru Capital](http://haskell.org/communities/05-2010/html/report.html#sect7.6) -
-    trading platform
-~   [McGraw-Hill Financial](https://www.youtube.com/watch?v=o3m2NkusI9k) -
-    report generation (with [ermine](http://ermine-language.github.io/ermine/))
-Semiconductor Design
-~   [Bluespec](http://www.slideshare.net/mansu/bluespec-talk) - high-level language for chip design
-
-# Consumer Apps
-
-<!--
-Bump:
-* https://github.com/MichaelXavier/Angel
-* http://devblog.bu.mp/post/40786229350/haskell-at-bump
-* https://www.fpcomplete.com/wp-content/uploads/2013/05/Bump%20case%20study.pdf
-
-Silk:
-* http://engineering.silk.co/post/31920990633/why-we-use-haskell
-* https://www.fpcomplete.com/wp-content/uploads/2013/05/Silk%20case%20study.pdf
--->
-
-[Silk](https://www.silk.co/)
-~   "A platform for sharing collections about anything"
-[Chordify](http://chordify.net/)
-~   "Chord transcription for the masses"
-[Bump](https://bu.mp/) (Google, Sep 2013)
-~   "Send files, videos, everything!" Mobile + web.
-[MailRank](http://www.mailrank.com/) (Facebook, Nov 2011)
-~   Email inbox prioritization. Shuttered post-acquisition.
-[Bazqux](https://bazqux.com/)
-~   "RSS reader that shows comments to posts"
-
-# Commercial Services
-
-<!--
-Janrain:
-* https://www.fpcomplete.com/wp-content/uploads/2013/05/janrain%20case%20study.pdf
-Scrive:
-* https://www.fpcomplete.com/wp-content/uploads/Scrive-case-study.pdf
-Spaceport:
-* https://github.com/sibblingz/spaceport-sp-opensource
-Skedge:
-* http://www.youtube.com/watch?v=BveDrw9CwEg
-* http://cufp.org/sites/all/files/slides/2013/trinkle.pdf
--->
-[janrain](http://janrain.com/)
-~   User management platform.
-[Spaceport](http://spaceport.io/) (Facebook, Aug 2013)
-~   Mobile game framework using ActionScript 3
-[scrive](http://scrive.com/)
-~   E-signing service (nordic market)
-[OpenBrain](http://www.openbrain.co.uk/)
-~   Computing platform for scientific and business analytics
-[skedge.me](http://skedge.me/)
-~   Enterprise appointment scheduling
-
-# Compilers
-
-Haskell
-~   [GHC](http://www.haskell.org/ghc/),
-    [Ajhc](http://ajhc.metasepi.org/),
-    [Haste](https://github.com/valderman/haste-compiler),
-    [GHCJS](https://github.com/ghcjs/ghcjs)
-Dependently typed
-~   [Agda](http://wiki.portal.chalmers.se/agda/) - also an interactive proof assistant!
-~   [Idris](http://www.idris-lang.org/) - general purpose
-Compile to JavaScript
-~   [Elm](http://elm-lang.org/) - functional reactive in the browser
-~   [Fay](http://fay-lang.org/) - Haskell subset
-Imperative
-~   [Pugs](http://pugscode.org/) - first Perl 6 implementation
-
-# Standalone Apps
-
-[Pandoc]
-~   Markup swiss-army knife (used to make these slides!)
-[Darcs](http://darcs.net/)
-~   Distributed revision control system (like Git or Mercurial)
-[xmonad](http://xmonad.org/)
-~   "the tiling window manager that rocks"
-[Gitit](http://gitit.net/)
-~   Wiki backed by Git, Darcs, or Mercurial
-[git-annex](http://git-annex.branchable.com/)
-~   Manage large files with git (similar to Dropbox)
-[ImplicitCAD](http://www.implicitcad.org/)
-~   Programmatic Solid 3D CAD modeler
-
-# Haskell Platform
-
-<h3>Haskell: Batteries Included</h3>
-
-* <http://www.haskell.org/platform>
-* GHC compiler and GHCi interpreter
-* Robust and stable set of vetted packages
-* [Cabal](http://www.haskell.org/cabal/); easily fetch more
-  packages from [Hackage](http://hackage.haskell.org/)
-
-# Editor Support
-
-Emacs
-~   [ghc-mod] + [HLint]
-Vim
-~   [hdevtools] +
-    [Syntastic](https://github.com/scrooloose/syntastic) + 
-    [vim-hdevtools](https://github.com/bitc/vim-hdevtools)
-Sublime Text
-~   [hdevtools] +
-    [SublimeHaskell](https://github.com/SublimeHaskell/SublimeHaskell)
-Eclipse
-~   [EclipseFP](http://eclipsefp.github.io/) + [HLint]
-Web
-~   [FP Haskell Center](https://www.fpcomplete.com/business/haskell-center/overview/)
 
 # Haskell Syntax
 
@@ -1863,74 +1593,6 @@ sum = go 0
     go  acc []     = acc
 ```
 
-# Notable Libraries
-
-# Web Frameworks
-
-[Snap](http://snapframework.com/) 
-~   HTTP + Templates. Extensible with "Snaplets"
-[Yesod](http://www.yesodweb.com/)
-~   Full stack, uses Template Haskell
-[Happstack](http://happstack.com/)
-~   Full stack, does not rely on Template Haskell (happstack-lite)
-[scotty](https://github.com/ku-fpg/scotty)
-~   Like Ruby Sinatra, great for simple REST apps
-
-# Publishing and docs
-
-[Haddock](http://www.haskell.org/haddock/)
-~   Standard library documentation tool for Haskell projects
-[diagrams](http://projects.haskell.org/diagrams/)
-~   DSL for vector graphics
-[hakyll](http://jaspervdj.be/hakyll/)
-~   Static site generator
-[Pandoc]
-~   Markup format swiss-army knife (Markdown, LaTeX, EPUB, &hellip;)
-
-# Parser Combinators
-
-[Parsec](http://hackage.haskell.org/package/parsec)
-~   Industrial strength, monadic parser combinator library for Haskell
-[attoparsec](http://hackage.haskell.org/package/attoparsec)
-~   Like Parsec, but makes a few trade-offs for performance
-
-# Dev Tools
-
-[HLint]
-~   Suggests improvements for your code
-[ghc-mod], [hdevtools]
-~   Editor integration
-[Hoogle](http://www.haskell.org/hoogle/), [Hayoo](http://holumbus.fh-wedel.de/hayoo/hayoo.html)
-~   Search for Haskell functions by name or *by type*!
-[Djinn](http://hackage.haskell.org/package/djinn)
-~   Automatically generate code given a type!
-[tidal](https://hackage.haskell.org/package/tidal)
-~   DSL for live coding music patterns ("algorave")
-
-# Parallel / Distributed
-
-[repa](http://repa.ouroborus.net/)
-~   High performance, regular, multi-dimensional arrays (with multi-core!)
-[accelerate](https://github.com/AccelerateHS/accelerate/)
-~   Like repa, but can utilize CUDA to run on GPUs
-[Cloud Haskell](http://haskell-distributed.github.io/)
-~   Erlang-like concurrency and distribution for Haskell
-
-# Testing &amp; Profiling
-
-[QuickCheck](http://hackage.haskell.org/package/QuickCheck)
-~   Property based testing
-[HUnit](http://hackage.haskell.org/package/HUnit)
-~   Standard unit testing framework
-[hpc](http://www.haskell.org/haskellwiki/Haskell_program_coverage)
-~   Haskell Program Coverage
-[ThreadScope](http://www.haskell.org/haskellwiki/ThreadScope)
-~   Visualize multi-core utilization
-[criterion](https://github.com/bos/criterion)
-~   Gold standard for performance benchmarking
-[EKG](https://github.com/tibbe/ekg)
-~   Embeds a web-server for live monitoring of metrics
-
 # Learn More
 
 Books
@@ -1956,9 +1618,9 @@ Practice
 # Thanks!
 
 +-------------+-------------------------------------------------+
-| **Slides**  | [bob.ippoli.to/haskell-for-erlangers-2014]      |
+| **Slides**  | [bob.ippoli.to/beginning-haskell-bayhac-2014]      |
 +-------------+-------------------------------------------------+
-| **Source**  | [github.com/etrepum/haskell-for-erlangers-2014] |
+| **Source**  | [github.com/etrepum/beginning-haskell-bayhac-2014] |
 +-------------+-------------------------------------------------+
 | **Email**   | bob@redivi.com                                  |
 +-------------+-------------------------------------------------+
@@ -1975,9 +1637,8 @@ http://www.haskell.org/haskellwiki/Learn_Haskell_in_10_minutes
 http://www.haskell.org/tutorial/goodies.html
 
 -->
-
-[bob.ippoli.to/haskell-for-erlangers-2014]: http://bob.ippoli.to/haskell-for-erlangers-2014/
-[github.com/etrepum/haskell-for-erlangers-2014]: https://github.com/etrepum/haskell-for-erlangers-2014
+[bob.ippoli.to/beginning-haskell-bayhac-2014]: http://bob.ippoli.to/beginning-haskell-bayhac-2014/
+[github.com/etrepum/beginning-haskell-bayhac-2014]: https://github.com/etrepum/beginning-haskell-bayhac-2014/
 [hdevtools]: https://github.com/bitc/hdevtools
 [ghc-mod]: http://www.mew.org/~kazu/proj/ghc-mod/en/
 [HLint]: http://community.haskell.org/~ndm/hlint/
