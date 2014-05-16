@@ -42,9 +42,9 @@
 
 Types
 ~   Defines types and typeclasses
-~   Constructors and record accessors become values
+~   Constructors and record accessors become terms
 
-Values
+Terms
 ~   Named bindings
 ~   Instances of constructors
 ~   Functions
@@ -81,11 +81,11 @@ data Char = ... | 'a' | 'b' | ...
 * Can name these fields using record syntax (defines getters automatically)
 
 ```haskell
+data CoinFlip = CoinFlip Bool
+
 data Choices = Choices Choice Choice
 
-data Coord = Coord Int Int
-
-data Coord = Coord { x :: Int, y :: Int }
+data Coord = Coord { x :: Double, y :: Double }
 ```
 
 # Sum of Products {.big-code}
@@ -175,12 +175,12 @@ fstChoice (<span class="dt hl-constructor">Choices</span> a _) <span class="fu">
 # Using Types {.big-code}
 
 ```haskell
--- Values can be annotated in-line
+-- Terms can be annotated in-line
 2 ^ (1 :: Int)
 
 -- Bindings can be annotated
 success :: a -> Maybe a
--- Constructors are values
+-- Constructors are terms
 -- (and product constructors are functions)
 success x = Just x
 
@@ -189,6 +189,126 @@ success x = Just x
 case success True of
   Just True -> ()
   _         -> ()
+```
+
+# GHCi
+
+<h2>Interactive Haskell</h2>
+
+# {#runhaskell .medium-code}
+
+```bash
+
+$ runhaskell --help
+Usage: runghc [runghc flags] [GHC flags] module [program args]
+
+The runghc flags are
+    -f /path/to/ghc       Tell runghc where GHC is
+    --help                Print this usage information
+    --version             Print version number
+```
+
+# {#ghci-start .medium-code}
+
+```haskell
+
+$ ghci
+GHCi, version 7.8.2: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+h> 
+```
+
+# {#ghci-t .big-code}
+
+<h2>
+`:t` shows type information</h2>
+```haskell
+
+h> :t map
+map :: (a -> b) -> [a] -> [b]
+h> :t map (+1)
+map (+1) :: Num b => [b] -> [b]
+h> :t (>>=)
+(>>=) :: Monad m => m a -> (a -> m b) -> m b
+```
+
+# {#ghci-i-typeclass .big-code}
+
+<h2>`:i` shows typeclass info</h2>
+```haskell
+
+h> :i Num
+class Num a where
+  (+) :: a -> a -> a
+  (*) :: a -> a -> a
+  (-) :: a -> a -> a
+  negate :: a -> a
+  abs :: a -> a
+  signum :: a -> a
+  fromInteger :: Integer -> a
+    -- Defined in `GHC.Num'
+instance Num Integer -- Defined in `GHC.Num'
+instance Num Int -- Defined in `GHC.Num'
+instance Num Float -- Defined in `GHC.Float'
+instance Num Double -- Defined in `GHC.Float'
+```
+
+# {#ghci-i-value .big-code}
+
+<h2>`:i` shows term info</h2>
+```haskell
+
+h> :info map
+map :: (a -> b) -> [a] -> [b]   
+-- Defined in `GHC.Base'
+h> :info (>>=)
+class Monad m where
+  (>>=) :: m a -> (a -> m b) -> m b
+  ...
+  	-- Defined in `GHC.Base'
+infixl 1 >>=
+```
+
+# {#ghci-i-type .big-code}
+
+<h2>`:i` shows type info</h2>
+```haskell
+
+h> :info Int
+data Int = ghc-prim:GHC.Types.I#
+  ghc-prim:GHC.Prim.Int#
+  -- Defined in `ghc-prim:GHC.Types'
+instance Bounded Int -- Defined in `GHC.Enum'
+instance Enum Int -- Defined in `GHC.Enum'
+instance Eq Int -- Defined in `GHC.Classes'
+instance Integral Int -- Defined in `GHC.Real'
+instance Num Int -- Defined in `GHC.Num'
+instance Ord Int -- Defined in `GHC.Classes'
+instance Read Int -- Defined in `GHC.Read'
+instance Real Int -- Defined in `GHC.Real'
+instance Show Int -- Defined in `GHC.Show'
+```
+
+# {#ghci-load-reload .big-code}
+
+<h2>`:l` load a module</h2>
+<h2>`:r` to reload</h2>
+```haskell
+
+h> :! echo 'hello = print "hello"' > Hello.hs
+h> :l Hello
+[1 of 1] Compiling Main ( Hello.hs, interpreted )
+Ok, modules loaded: Main.
+h> hello
+"hello"
+h> :! echo 'hello = print "HELLO"' > Hello.hs
+h> :r
+[1 of 1] Compiling Main ( Hello.hs, interpreted )
+Ok, modules loaded: Main.
+h> hello
+"HELLO"
 ```
 
 # map {.big-code}
@@ -446,11 +566,8 @@ data Choice = Definitely
 # QuickCheck {.big-code}
 
 ```haskell
-import Data.Sequence ((|>), empty)
-import Data.Foldable (toList)
-
-prop_itsthere :: Int -> Bool
-prop_itsthere i = [i] == toList (empty |> i)
+prop_intIdentity :: Int -> Bool
+prop_intIdentity i = i == i
 ```
 
 # QuickCheck {.big-code}
@@ -460,11 +577,38 @@ $ ghci
 ```
 ```haskell
 λ> import Test.QuickCheck
-λ> import Data.Foldable
-λ> import Data.Sequence
-λ> quickCheck (\i -> [i :: Int] ==
-                       toList (empty |> i))
+λ> quickCheck (\i -> (i :: Int) == i)
 +++ OK, passed 100 tests.
+```
+
+# QuickCheck Isn't Magic {.big-code .small-title}
+
+```haskell
+λ> import Test.QuickCheck
+λ> quickCheck (\i -> (i :: Double) + 1 > i)
++++ OK, passed 100 tests.
+```
+
+# QuickCheck Isn't Magic {.big-code .small-title}
+
+```haskell
+λ> import Test.QuickCheck
+λ> quickCheck (\i -> (i :: Double) + 1 > i)
++++ OK, passed 100 tests.
+λ> let i = 0/0 :: Double in i + 1 > i
+False
+```
+
+# QuickCheck Isn't Magic {.big-code .small-title}
+
+```haskell
+λ> import Test.QuickCheck
+λ> quickCheck (\i -> (i :: Double) + 1 > i)
++++ OK, passed 100 tests.
+λ> let i = 0/0 :: Double in i + 1 > i
+False
+λ> let i = 1e16 :: Double in i + 1 > i
+False
 ```
 
 # Do syntax (IO) {.big-code}
@@ -593,135 +737,6 @@ flatMap = flip (>>=)
 ```haskell
 flatMap :: (a -> [b]) -> [a] -> [b]
 flatMap = (=<<)
-```
-
-# Key Features
-
-* Interactive
-* Pure
-* Non-strict (lazy) evaluation
-* Types and typeclasses
-* Abstractions
-* Multi-paradigm
-
-# GHCi
-
-<h2>Interactive Haskell</h2>
-
-# {#runhaskell}
-
-```bash
-
-$ runhaskell --help
-Usage: runghc [runghc flags] [GHC flags] module [program args]
-
-The runghc flags are
-    -f /path/to/ghc       Tell runghc where GHC is
-    --help                Print this usage information
-    --version             Print version number
-```
-
-# {#ghci-start}
-
-```haskell
-
-$ ghci
-GHCi, version 7.6.3: http://www.haskell.org/ghc/  :? for help
-Loading package ghc-prim ... linking ... done.
-Loading package integer-gmp ... linking ... done.
-Loading package base ... linking ... done.
-h> 
-```
-
-# {#ghci-t .big-code}
-
-<h2>
-`:t` shows type information</h2>
-```haskell
-
-h> :t map
-map :: (a -> b) -> [a] -> [b]
-h> :t map (+1)
-map (+1) :: Num b => [b] -> [b]
-h> :t (>>=)
-(>>=) :: Monad m => m a -> (a -> m b) -> m b
-```
-
-# {#ghci-i-typeclass .big-code}
-
-<h2>`:i` shows typeclass info</h2>
-```haskell
-
-h> :i Num
-class Num a where
-  (+) :: a -> a -> a
-  (*) :: a -> a -> a
-  (-) :: a -> a -> a
-  negate :: a -> a
-  abs :: a -> a
-  signum :: a -> a
-  fromInteger :: Integer -> a
-    -- Defined in `GHC.Num'
-instance Num Integer -- Defined in `GHC.Num'
-instance Num Int -- Defined in `GHC.Num'
-instance Num Float -- Defined in `GHC.Float'
-instance Num Double -- Defined in `GHC.Float'
-```
-
-# {#ghci-i-value .big-code}
-
-<h2>`:i` shows value info</h2>
-```haskell
-
-h> :info map
-map :: (a -> b) -> [a] -> [b]   
--- Defined in `GHC.Base'
-h> :info (>>=)
-class Monad m where
-  (>>=) :: m a -> (a -> m b) -> m b
-  ...
-  	-- Defined in `GHC.Base'
-infixl 1 >>=
-```
-
-# {#ghci-i-type .big-code}
-
-<h2>`:i` shows type info</h2>
-```haskell
-
-h> :info Int
-data Int = ghc-prim:GHC.Types.I#
-  ghc-prim:GHC.Prim.Int#
-  -- Defined in `ghc-prim:GHC.Types'
-instance Bounded Int -- Defined in `GHC.Enum'
-instance Enum Int -- Defined in `GHC.Enum'
-instance Eq Int -- Defined in `GHC.Classes'
-instance Integral Int -- Defined in `GHC.Real'
-instance Num Int -- Defined in `GHC.Num'
-instance Ord Int -- Defined in `GHC.Classes'
-instance Read Int -- Defined in `GHC.Read'
-instance Real Int -- Defined in `GHC.Real'
-instance Show Int -- Defined in `GHC.Show'
-```
-
-# {#ghci-load-reload .big-code}
-
-<h2>`:l` load a module</h2>
-<h2>`:r` to reload</h2>
-```haskell
-
-h> :! echo 'hello = print "hello"' > Hello.hs
-h> :l Hello
-[1 of 1] Compiling Main ( Hello.hs, interpreted )
-Ok, modules loaded: Main.
-h> hello
-"hello"
-h> :! echo 'hello = print "HELLO"' > Hello.hs
-h> :r
-[1 of 1] Compiling Main ( Hello.hs, interpreted )
-Ok, modules loaded: Main.
-h> hello
-"HELLO"
 ```
 
 # {#side-effects .big-code}
@@ -1301,78 +1316,6 @@ pJSON = choice [ pText, pObject, pArray ]
     pArray = JArray <$> "[" .*> (pJSON `sepBy` ",") <*. "]"
 ```
 
-# Foreign Function Interface
-
-# {#ffi .big-code}
-
-```haskell
-
-{-# LANGUAGE ForeignFunctionInterface #-}
-
-import Foreign.C.Types
-import Control.Monad
-
-foreign import ccall unsafe "stdlib.h rand"
-     c_rand :: IO CUInt
-
-main :: IO ()
-main = replicateM_ 20 (c_rand >>= print)
-```
-
-# Parallel Programming
-
-# {#parallel-flip-image}
-
-```haskell
--- FlipImage.hs
-import System.Environment
-import Data.Word
-import Data.Array.Repa hiding ((++))
-import Data.Array.Repa.IO.DevIL
-import Data.Array.Repa.Repr.ForeignPtr
-
-main :: IO () 
-main = do
-  [f] <- getArgs
-  (RGB v) <- runIL $ readImage f
-  rotated <- (computeP $ rot180 v) :: IO (Array F DIM3 Word8)
-  runIL $ writeImage ("flip-"++f) (RGB rotated)
-
-rot180 :: (Source r e) => Array r DIM3 e -> Array D DIM3 e
-rot180 g = backpermute e flop g
-  where
-    e@(Z :. x :. y :. _) = extent g
-    flop (Z :. i         :. j         :. k) =
-         (Z :. x - i - 1 :. y - j - 1 :. k)
-```
-
-# Concurrency
-
-# {#concurrent-http}
-
-```haskell
-
-import Control.Concurrent
-import Network.HTTP
-
-getHTTP :: String -> IO String
-getHTTP url = simpleHTTP (getRequest url) >>= getResponseBody
-
-urls :: [String]
-urls = map ("http://ifconfig.me/"++) ["ip", "host"]
-
-startRequest :: String -> IO (MVar ())
-startRequest url = do
-  v <- newEmptyMVar
-  forkIO (getHTTP url >>= putStr >> putMVar v ())
-  return v
-
-main :: IO ()
-main = do
-  mvars <- mapM startRequest urls
-  mapM_ takeMVar mvars
-```
-
 # Why not Haskell?
 
 * Lots of new terminology
@@ -1415,9 +1358,9 @@ sum :: Num [a] => [a] -> a
 sum = go 0
   where
     go acc _
-      | seq acc False = undefined
-    go acc (x:xs)     = go (acc + x) (go xs)
-    go acc []         = acc
+      | acc `seq` False = undefined
+    go acc (x:xs)       = go (acc + x) (go xs)
+    go acc []           = acc
 ```
 
 # {#laziness-behavior-4 .big-code}
@@ -1439,12 +1382,12 @@ Books
 ~   [Parallel and Concurrent Programming in Haskell](http://chimera.labs.oreilly.com/books/1230000000929)
 ~   [Real World Haskell](http://book.realworldhaskell.org/)
 Lectures
-~   [Functional Systems in Haskell](http://www.scs.stanford.edu/11au-cs240h/) -
-    CS240h Autumn 2011, Stanford
-~   [Introduction to Haskell](http://shuklan.com/haskell/index.html) -
-    CS1501 Spring 2013, UVA
 ~   [Introduction to Haskell](http://www.seas.upenn.edu/~cis194/) -
     CIS 194 Spring 2013, UPenn
+~   [Functional Systems in Haskell](http://www.scs.stanford.edu/14sp-cs240h/) -
+    CS240h Autumn 2014, Stanford
+~   [Introduction to Haskell](http://shuklan.com/haskell/index.html) -
+    CS1501 Spring 2013, UVA
 ~   [Haskell Track](http://courses.cms.caltech.edu/cs11/material/haskell/) -
     CS 11 Fall 2011, Caltech
 Practice

@@ -95,9 +95,9 @@ Bob Ippolito (<a href="https://twitter.com/etrepum"><span class="citation" data-
 <dt>Types</dt>
 <dd>Defines types and typeclasses
 </dd>
-<dd><p>Constructors and record accessors become values</p>
+<dd><p>Constructors and record accessors become terms</p>
 </dd>
-<dt>Values</dt>
+<dt>Terms</dt>
 <dd>Named bindings
 </dd>
 <dd>Instances of constructors
@@ -140,11 +140,11 @@ Bob Ippolito (<a href="https://twitter.com/etrepum"><span class="citation" data-
 <li>Choices has <code>3 * 3 == 9</code> possible inhabitants</li>
 <li>Can name these fields using record syntax (defines getters automatically)</li>
 </ul>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Choices</span> <span class="fu">=</span> <span class="dt">Choices</span> <span class="dt">Choice</span> <span class="dt">Choice</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">CoinFlip</span> <span class="fu">=</span> <span class="dt">CoinFlip</span> <span class="dt">Bool</span>
 
-<span class="kw">data</span> <span class="dt">Coord</span> <span class="fu">=</span> <span class="dt">Coord</span> <span class="dt">Int</span> <span class="dt">Int</span>
+<span class="kw">data</span> <span class="dt">Choices</span> <span class="fu">=</span> <span class="dt">Choices</span> <span class="dt">Choice</span> <span class="dt">Choice</span>
 
-<span class="kw">data</span> <span class="dt">Coord</span> <span class="fu">=</span> <span class="dt">Coord</span> {<span class="ot"> x ::</span> <span class="dt">Int</span>,<span class="ot"> y ::</span> <span class="dt">Int</span> }</code></pre>
+<span class="kw">data</span> <span class="dt">Coord</span> <span class="fu">=</span> <span class="dt">Coord</span> {<span class="ot"> x ::</span> <span class="dt">Double</span>,<span class="ot"> y ::</span> <span class="dt">Double</span> }</code></pre>
 </section>
 <section id="sum-of-products" class="slide level1 big-code">
 <h1>Sum of Products</h1>
@@ -235,12 +235,12 @@ fstChoice (<span class="dt hl-constructor">Choices</span> a _) <span class="fu">
 </section>
 <section id="using-types" class="slide level1 big-code">
 <h1>Using Types</h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Values can be annotated in-line</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Terms can be annotated in-line</span>
 <span class="dv">2</span> <span class="fu">^</span> (<span class="dv">1</span><span class="ot"> ::</span> <span class="dt">Int</span>)
 
 <span class="co">-- Bindings can be annotated</span>
 <span class="ot">success ::</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a
-<span class="co">-- Constructors are values</span>
+<span class="co">-- Constructors are terms</span>
 <span class="co">-- (and product constructors are functions)</span>
 success x <span class="fu">=</span> <span class="dt">Just</span> x
 
@@ -249,6 +249,126 @@ success x <span class="fu">=</span> <span class="dt">Just</span> x
 <span class="kw">case</span> success <span class="dt">True</span> <span class="kw">of</span>
   <span class="dt">Just</span> <span class="dt">True</span> <span class="ot">-&gt;</span> ()
   _         <span class="ot">-&gt;</span> ()</code></pre>
+</section>
+<section id="ghci" class="slide level1">
+<h1>GHCi</h1>
+<h2>
+Interactive Haskell
+</h2>
+
+</section>
+<section id="runhaskell" class="slide level1 medium-code">
+<h1></h1>
+<pre class="sourceCode bash"><code class="sourceCode bash">
+$ <span class="kw">runhaskell</span> --help
+<span class="kw">Usage</span>: runghc [runghc flags] [GHC flags] module [program args]
+
+<span class="kw">The</span> runghc flags are
+    <span class="kw">-f</span> /path/to/ghc       Tell runghc where GHC is
+    <span class="kw">--help</span>                Print this usage information
+    <span class="kw">--version</span>             Print version number</code></pre>
+</section>
+<section id="ghci-start" class="slide level1 medium-code">
+<h1></h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+<span class="fu">$</span> ghci
+<span class="dt">GHCi</span>, version <span class="dv">7</span><span class="fu">.</span><span class="dv">8</span><span class="fu">.</span><span class="dv">2</span><span class="fu">:</span> http<span class="fu">://</span>www<span class="fu">.</span>haskell<span class="fu">.</span>org<span class="fu">/</span>ghc<span class="fu">/</span>  <span class="fu">:?</span> for help
+<span class="dt">Loading</span> package ghc<span class="fu">-</span>prim <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
+<span class="dt">Loading</span> package integer<span class="fu">-</span>gmp <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
+<span class="dt">Loading</span> package base <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
+h<span class="fu">&gt;</span> </code></pre>
+</section>
+<section id="ghci-t" class="slide level1 big-code">
+<h1></h1>
+<h2>
+<code>:t</code> shows type information
+</h2>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+h<span class="fu">&gt;</span> <span class="fu">:</span>t map
+map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
+h<span class="fu">&gt;</span> <span class="fu">:</span>t map (<span class="fu">+</span><span class="dv">1</span>)
+map (<span class="fu">+</span><span class="dv">1</span>)<span class="ot"> ::</span> <span class="dt">Num</span> b <span class="ot">=&gt;</span> [b] <span class="ot">-&gt;</span> [b]
+h<span class="fu">&gt;</span> <span class="fu">:</span>t (<span class="fu">&gt;&gt;=</span>)
+<span class="ot">(&gt;&gt;=) ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</code></pre>
+</section>
+<section id="ghci-i-typeclass" class="slide level1 big-code">
+<h1></h1>
+<h2>
+<code>:i</code> shows typeclass info
+</h2>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+h<span class="fu">&gt;</span> <span class="fu">:</span>i <span class="dt">Num</span>
+<span class="kw">class</span> <span class="dt">Num</span> a <span class="kw">where</span>
+<span class="ot">  (+) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+<span class="ot">  (*) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+<span class="ot">  (-) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+<span class="ot">  negate ::</span> a <span class="ot">-&gt;</span> a
+<span class="ot">  abs ::</span> a <span class="ot">-&gt;</span> a
+<span class="ot">  signum ::</span> a <span class="ot">-&gt;</span> a
+<span class="ot">  fromInteger ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> a
+    <span class="co">-- Defined in `GHC.Num&#39;</span>
+<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Integer</span> <span class="co">-- Defined in `GHC.Num&#39;</span>
+<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Num&#39;</span>
+<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Float</span> <span class="co">-- Defined in `GHC.Float&#39;</span>
+<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Double</span> <span class="co">-- Defined in `GHC.Float&#39;</span></code></pre>
+</section>
+<section id="ghci-i-value" class="slide level1 big-code">
+<h1></h1>
+<h2>
+<code>:i</code> shows term info
+</h2>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+h<span class="fu">&gt;</span> <span class="fu">:</span>info map
+map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]   
+<span class="co">-- Defined in `GHC.Base&#39;</span>
+h<span class="fu">&gt;</span> <span class="fu">:</span>info (<span class="fu">&gt;&gt;=</span>)
+<span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span>
+<span class="ot">  (&gt;&gt;=) ::</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b
+  <span class="fu">...</span>
+    <span class="co">-- Defined in `GHC.Base&#39;</span>
+<span class="kw">infixl</span> <span class="dv">1</span> <span class="fu">&gt;&gt;=</span></code></pre>
+</section>
+<section id="ghci-i-type" class="slide level1 big-code">
+<h1></h1>
+<h2>
+<code>:i</code> shows type info
+</h2>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+h<span class="fu">&gt;</span> <span class="fu">:</span>info <span class="dt">Int</span>
+<span class="kw">data</span> <span class="dt">Int</span> <span class="fu">=</span> ghc<span class="fu">-</span>prim<span class="fu">:</span><span class="dt">GHC.Types.I</span><span class="st">#</span>
+  ghc<span class="fu">-</span>prim<span class="fu">:</span><span class="dt">GHC.Prim.Int</span><span class="st">#</span>
+  <span class="co">-- Defined in `ghc-prim:GHC.Types&#39;</span>
+<span class="kw">instance</span> <span class="dt">Bounded</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Enum&#39;</span>
+<span class="kw">instance</span> <span class="dt">Enum</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Enum&#39;</span>
+<span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Classes&#39;</span>
+<span class="kw">instance</span> <span class="dt">Integral</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Real&#39;</span>
+<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Num&#39;</span>
+<span class="kw">instance</span> <span class="dt">Ord</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Classes&#39;</span>
+<span class="kw">instance</span> <span class="dt">Read</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Read&#39;</span>
+<span class="kw">instance</span> <span class="dt">Real</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Real&#39;</span>
+<span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Show&#39;</span></code></pre>
+</section>
+<section id="ghci-load-reload" class="slide level1 big-code">
+<h1></h1>
+<h2>
+<code>:l</code> load a module
+</h2>
+<h2>
+<code>:r</code> to reload
+</h2>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+h<span class="fu">&gt;</span> <span class="fu">:!</span> echo <span class="ch">&#39;hello = print &quot;hello&quot;&#39;</span> <span class="fu">&gt;</span> Hello.hs
+h<span class="fu">&gt;</span> <span class="fu">:</span>l <span class="dt">Hello</span>
+[<span class="dv">1</span> <span class="kw">of</span> <span class="dv">1</span>] <span class="dt">Compiling</span> <span class="dt">Main</span> ( Hello.hs, interpreted )
+<span class="dt">Ok</span>, modules loaded<span class="fu">:</span> <span class="dt">Main</span><span class="fu">.</span>
+h<span class="fu">&gt;</span> hello
+<span class="st">&quot;hello&quot;</span>
+h<span class="fu">&gt;</span> <span class="fu">:!</span> echo <span class="ch">&#39;hello = print &quot;HELLO&quot;&#39;</span> <span class="fu">&gt;</span> Hello.hs
+h<span class="fu">&gt;</span> <span class="fu">:</span>r
+[<span class="dv">1</span> <span class="kw">of</span> <span class="dv">1</span>] <span class="dt">Compiling</span> <span class="dt">Main</span> ( Hello.hs, interpreted )
+<span class="dt">Ok</span>, modules loaded<span class="fu">:</span> <span class="dt">Main</span><span class="fu">.</span>
+h<span class="fu">&gt;</span> hello
+<span class="st">&quot;HELLO&quot;</span></code></pre>
 </section>
 <section id="map" class="slide level1 big-code">
 <h1>map</h1>
@@ -478,21 +598,39 @@ someString <span class="fu">=</span> <span class="st">&quot;foo&quot;</span></co
 </section>
 <section id="quickcheck" class="slide level1 big-code">
 <h1>QuickCheck</h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Sequence</span> ((|&gt;), empty)
-<span class="kw">import </span><span class="dt">Data.Foldable</span> (toList)
-
-<span class="ot">prop_itsthere ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
-prop_itsthere i <span class="fu">=</span> [i] <span class="fu">==</span> toList (empty <span class="fu">|&gt;</span> i)</code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">prop_intIdentity ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+prop_intIdentity i <span class="fu">=</span> i <span class="fu">==</span> i</code></pre>
 </section>
 <section id="quickcheck-1" class="slide level1 big-code">
 <h1>QuickCheck</h1>
 <pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ghci</span></code></pre>
 <pre class="sourceCode haskell"><code class="sourceCode haskell">λ&gt; <span class="kw">import </span><span class="dt">Test.QuickCheck</span>
-λ&gt; <span class="kw">import </span><span class="dt">Data.Foldable</span>
-λ&gt; <span class="kw">import </span><span class="dt">Data.Sequence</span>
-λ&gt; quickCheck (\i <span class="ot">-&gt;</span> [<span class="ot">i ::</span> <span class="dt">Int</span>] <span class="fu">==</span>
-                       toList (empty <span class="fu">|&gt;</span> i))
+λ&gt; quickCheck (\i <span class="ot">-&gt;</span> (<span class="ot">i ::</span> <span class="dt">Int</span>) <span class="fu">==</span> i)
 <span class="fu">+++</span> <span class="dt">OK</span>, passed <span class="dv">100</span> tests<span class="fu">.</span></code></pre>
+</section>
+<section id="quickcheck-isnt-magic" class="slide level1 big-code small-title">
+<h1>QuickCheck Isn't Magic</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ&gt; <span class="kw">import </span><span class="dt">Test.QuickCheck</span>
+λ&gt; quickCheck (\i <span class="ot">-&gt;</span> (<span class="ot">i ::</span> <span class="dt">Double</span>) <span class="fu">+</span> <span class="dv">1</span> <span class="fu">&gt;</span> i)
+<span class="fu">+++</span> <span class="dt">OK</span>, passed <span class="dv">100</span> tests<span class="fu">.</span></code></pre>
+</section>
+<section id="quickcheck-isnt-magic-1" class="slide level1 big-code small-title">
+<h1>QuickCheck Isn't Magic</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ&gt; <span class="kw">import </span><span class="dt">Test.QuickCheck</span>
+λ&gt; quickCheck (\i <span class="ot">-&gt;</span> (<span class="ot">i ::</span> <span class="dt">Double</span>) <span class="fu">+</span> <span class="dv">1</span> <span class="fu">&gt;</span> i)
+<span class="fu">+++</span> <span class="dt">OK</span>, passed <span class="dv">100</span> tests<span class="fu">.</span>
+λ&gt; <span class="kw">let</span> i <span class="fu">=</span> <span class="dv">0</span><span class="fu">/</span><span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Double</span> <span class="kw">in</span> i <span class="fu">+</span> <span class="dv">1</span> <span class="fu">&gt;</span> i
+<span class="dt">False</span></code></pre>
+</section>
+<section id="quickcheck-isnt-magic-2" class="slide level1 big-code small-title">
+<h1>QuickCheck Isn't Magic</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ&gt; <span class="kw">import </span><span class="dt">Test.QuickCheck</span>
+λ&gt; quickCheck (\i <span class="ot">-&gt;</span> (<span class="ot">i ::</span> <span class="dt">Double</span>) <span class="fu">+</span> <span class="dv">1</span> <span class="fu">&gt;</span> i)
+<span class="fu">+++</span> <span class="dt">OK</span>, passed <span class="dv">100</span> tests<span class="fu">.</span>
+λ&gt; <span class="kw">let</span> i <span class="fu">=</span> <span class="dv">0</span><span class="fu">/</span><span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Double</span> <span class="kw">in</span> i <span class="fu">+</span> <span class="dv">1</span> <span class="fu">&gt;</span> i
+<span class="dt">False</span>
+λ&gt; <span class="kw">let</span> i <span class="fu">=</span> 1<span class="ot">e16 ::</span> <span class="dt">Double</span> <span class="kw">in</span> i <span class="fu">+</span> <span class="dv">1</span> <span class="fu">&gt;</span> i
+<span class="dt">False</span></code></pre>
 </section>
 <section id="do-syntax-io" class="slide level1 big-code">
 <h1>Do syntax (IO)</h1>
@@ -606,137 +744,6 @@ flatMap <span class="fu">=</span> flip (<span class="fu">&gt;&gt;=</span>)</code
 <h1>Do syntax ([a])</h1>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">flatMap ::</span> (a <span class="ot">-&gt;</span> [b]) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
 flatMap <span class="fu">=</span> (<span class="fu">=&lt;&lt;</span>)</code></pre>
-</section>
-<section id="key-features" class="slide level1">
-<h1>Key Features</h1>
-<ul>
-<li>Interactive</li>
-<li>Pure</li>
-<li>Non-strict (lazy) evaluation</li>
-<li>Types and typeclasses</li>
-<li>Abstractions</li>
-<li>Multi-paradigm</li>
-</ul>
-</section>
-<section id="ghci" class="slide level1">
-<h1>GHCi</h1>
-<h2>
-Interactive Haskell
-</h2>
-
-</section>
-<section id="runhaskell" class="slide level1">
-<h1></h1>
-<pre class="sourceCode bash"><code class="sourceCode bash">
-$ <span class="kw">runhaskell</span> --help
-<span class="kw">Usage</span>: runghc [runghc flags] [GHC flags] module [program args]
-
-<span class="kw">The</span> runghc flags are
-    <span class="kw">-f</span> /path/to/ghc       Tell runghc where GHC is
-    <span class="kw">--help</span>                Print this usage information
-    <span class="kw">--version</span>             Print version number</code></pre>
-</section>
-<section id="ghci-start" class="slide level1">
-<h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="fu">$</span> ghci
-<span class="dt">GHCi</span>, version <span class="dv">7</span><span class="fu">.</span><span class="dv">6</span><span class="fu">.</span><span class="dv">3</span><span class="fu">:</span> http<span class="fu">://</span>www<span class="fu">.</span>haskell<span class="fu">.</span>org<span class="fu">/</span>ghc<span class="fu">/</span>  <span class="fu">:?</span> for help
-<span class="dt">Loading</span> package ghc<span class="fu">-</span>prim <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
-<span class="dt">Loading</span> package integer<span class="fu">-</span>gmp <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
-<span class="dt">Loading</span> package base <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
-h<span class="fu">&gt;</span> </code></pre>
-</section>
-<section id="ghci-t" class="slide level1 big-code">
-<h1></h1>
-<h2>
-<code>:t</code> shows type information
-</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:</span>t map
-map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
-h<span class="fu">&gt;</span> <span class="fu">:</span>t map (<span class="fu">+</span><span class="dv">1</span>)
-map (<span class="fu">+</span><span class="dv">1</span>)<span class="ot"> ::</span> <span class="dt">Num</span> b <span class="ot">=&gt;</span> [b] <span class="ot">-&gt;</span> [b]
-h<span class="fu">&gt;</span> <span class="fu">:</span>t (<span class="fu">&gt;&gt;=</span>)
-<span class="ot">(&gt;&gt;=) ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</code></pre>
-</section>
-<section id="ghci-i-typeclass" class="slide level1 big-code">
-<h1></h1>
-<h2>
-<code>:i</code> shows typeclass info
-</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:</span>i <span class="dt">Num</span>
-<span class="kw">class</span> <span class="dt">Num</span> a <span class="kw">where</span>
-<span class="ot">  (+) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
-<span class="ot">  (*) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
-<span class="ot">  (-) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
-<span class="ot">  negate ::</span> a <span class="ot">-&gt;</span> a
-<span class="ot">  abs ::</span> a <span class="ot">-&gt;</span> a
-<span class="ot">  signum ::</span> a <span class="ot">-&gt;</span> a
-<span class="ot">  fromInteger ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> a
-    <span class="co">-- Defined in `GHC.Num&#39;</span>
-<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Integer</span> <span class="co">-- Defined in `GHC.Num&#39;</span>
-<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Num&#39;</span>
-<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Float</span> <span class="co">-- Defined in `GHC.Float&#39;</span>
-<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Double</span> <span class="co">-- Defined in `GHC.Float&#39;</span></code></pre>
-</section>
-<section id="ghci-i-value" class="slide level1 big-code">
-<h1></h1>
-<h2>
-<code>:i</code> shows value info
-</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:</span>info map
-map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]   
-<span class="co">-- Defined in `GHC.Base&#39;</span>
-h<span class="fu">&gt;</span> <span class="fu">:</span>info (<span class="fu">&gt;&gt;=</span>)
-<span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span>
-<span class="ot">  (&gt;&gt;=) ::</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b
-  <span class="fu">...</span>
-    <span class="co">-- Defined in `GHC.Base&#39;</span>
-<span class="kw">infixl</span> <span class="dv">1</span> <span class="fu">&gt;&gt;=</span></code></pre>
-</section>
-<section id="ghci-i-type" class="slide level1 big-code">
-<h1></h1>
-<h2>
-<code>:i</code> shows type info
-</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:</span>info <span class="dt">Int</span>
-<span class="kw">data</span> <span class="dt">Int</span> <span class="fu">=</span> ghc<span class="fu">-</span>prim<span class="fu">:</span><span class="dt">GHC.Types.I</span><span class="st">#</span>
-  ghc<span class="fu">-</span>prim<span class="fu">:</span><span class="dt">GHC.Prim.Int</span><span class="st">#</span>
-  <span class="co">-- Defined in `ghc-prim:GHC.Types&#39;</span>
-<span class="kw">instance</span> <span class="dt">Bounded</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Enum&#39;</span>
-<span class="kw">instance</span> <span class="dt">Enum</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Enum&#39;</span>
-<span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Classes&#39;</span>
-<span class="kw">instance</span> <span class="dt">Integral</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Real&#39;</span>
-<span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Num&#39;</span>
-<span class="kw">instance</span> <span class="dt">Ord</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Classes&#39;</span>
-<span class="kw">instance</span> <span class="dt">Read</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Read&#39;</span>
-<span class="kw">instance</span> <span class="dt">Real</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Real&#39;</span>
-<span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">Int</span> <span class="co">-- Defined in `GHC.Show&#39;</span></code></pre>
-</section>
-<section id="ghci-load-reload" class="slide level1 big-code">
-<h1></h1>
-<h2>
-<code>:l</code> load a module
-</h2>
-<h2>
-<code>:r</code> to reload
-</h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:!</span> echo <span class="ch">&#39;hello = print &quot;hello&quot;&#39;</span> <span class="fu">&gt;</span> Hello.hs
-h<span class="fu">&gt;</span> <span class="fu">:</span>l <span class="dt">Hello</span>
-[<span class="dv">1</span> <span class="kw">of</span> <span class="dv">1</span>] <span class="dt">Compiling</span> <span class="dt">Main</span> ( Hello.hs, interpreted )
-<span class="dt">Ok</span>, modules loaded<span class="fu">:</span> <span class="dt">Main</span><span class="fu">.</span>
-h<span class="fu">&gt;</span> hello
-<span class="st">&quot;hello&quot;</span>
-h<span class="fu">&gt;</span> <span class="fu">:!</span> echo <span class="ch">&#39;hello = print &quot;HELLO&quot;&#39;</span> <span class="fu">&gt;</span> Hello.hs
-h<span class="fu">&gt;</span> <span class="fu">:</span>r
-[<span class="dv">1</span> <span class="kw">of</span> <span class="dv">1</span>] <span class="dt">Compiling</span> <span class="dt">Main</span> ( Hello.hs, interpreted )
-<span class="dt">Ok</span>, modules loaded<span class="fu">:</span> <span class="dt">Main</span><span class="fu">.</span>
-h<span class="fu">&gt;</span> hello
-<span class="st">&quot;HELLO&quot;</span></code></pre>
 </section>
 <section id="side-effects" class="slide level1 big-code">
 <h1></h1>
@@ -1254,75 +1261,6 @@ pJSON <span class="fu">=</span> choice [ pText, pObject, pArray ]
     pObject <span class="fu">=</span> <span class="dt">JObject</span> <span class="fu">&lt;$&gt;</span> <span class="st">&quot;{&quot;</span> <span class="fu">.*&gt;</span> (pPair <span class="ot">`sepBy`</span> <span class="st">&quot;,&quot;</span>) <span class="fu">&lt;*.</span> <span class="st">&quot;}&quot;</span>
     pArray <span class="fu">=</span> <span class="dt">JArray</span> <span class="fu">&lt;$&gt;</span> <span class="st">&quot;[&quot;</span> <span class="fu">.*&gt;</span> (pJSON <span class="ot">`sepBy`</span> <span class="st">&quot;,&quot;</span>) <span class="fu">&lt;*.</span> <span class="st">&quot;]&quot;</span></code></pre>
 </section>
-<section id="foreign-function-interface" class="slide level1">
-<h1>Foreign Function Interface</h1>
-</section>
-<section id="ffi" class="slide level1 big-code">
-<h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="ot">{-# LANGUAGE ForeignFunctionInterface #-}</span>
-
-<span class="kw">import </span><span class="dt">Foreign.C.Types</span>
-<span class="kw">import </span><span class="dt">Control.Monad</span>
-
-foreign <span class="kw">import </span>ccall unsafe &quot;stdlib.h rand&quot;
-<span class="ot">     c_rand ::</span> <span class="dt">IO</span> <span class="dt">CUInt</span>
-
-<span class="ot">main ::</span> <span class="dt">IO</span> ()
-main <span class="fu">=</span> replicateM_ <span class="dv">20</span> (c_rand <span class="fu">&gt;&gt;=</span> print)</code></pre>
-</section>
-<section id="parallel-programming" class="slide level1">
-<h1>Parallel Programming</h1>
-</section>
-<section id="parallel-flip-image" class="slide level1">
-<h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- FlipImage.hs</span>
-<span class="kw">import </span><span class="dt">System.Environment</span>
-<span class="kw">import </span><span class="dt">Data.Word</span>
-<span class="kw">import </span><span class="dt">Data.Array.Repa</span> <span class="kw">hiding</span> ((++))
-<span class="kw">import </span><span class="dt">Data.Array.Repa.IO.DevIL</span>
-<span class="kw">import </span><span class="dt">Data.Array.Repa.Repr.ForeignPtr</span>
-
-<span class="ot">main ::</span> <span class="dt">IO</span> () 
-main <span class="fu">=</span> <span class="kw">do</span>
-  [f] <span class="ot">&lt;-</span> getArgs
-  (<span class="dt">RGB</span> v) <span class="ot">&lt;-</span> runIL <span class="fu">$</span> readImage f
-  rotated <span class="ot">&lt;-</span> (computeP <span class="fu">$</span> rot180 v)<span class="ot"> ::</span> <span class="dt">IO</span> (<span class="dt">Array</span> <span class="dt">F</span> <span class="dt">DIM3</span> <span class="dt">Word8</span>)
-  runIL <span class="fu">$</span> writeImage (<span class="st">&quot;flip-&quot;</span><span class="fu">++</span>f) (<span class="dt">RGB</span> rotated)
-
-<span class="ot">rot180 ::</span> (<span class="dt">Source</span> r e) <span class="ot">=&gt;</span> <span class="dt">Array</span> r <span class="dt">DIM3</span> e <span class="ot">-&gt;</span> <span class="dt">Array</span> <span class="dt">D</span> <span class="dt">DIM3</span> e
-rot180 g <span class="fu">=</span> backpermute e flop g
-  <span class="kw">where</span>
-    e<span class="fu">@</span>(<span class="dt">Z</span> <span class="fu">:.</span> x <span class="fu">:.</span> y <span class="fu">:.</span> _) <span class="fu">=</span> extent g
-    flop (<span class="dt">Z</span> <span class="fu">:.</span> i         <span class="fu">:.</span> j         <span class="fu">:.</span> k) <span class="fu">=</span>
-         (<span class="dt">Z</span> <span class="fu">:.</span> x <span class="fu">-</span> i <span class="fu">-</span> <span class="dv">1</span> <span class="fu">:.</span> y <span class="fu">-</span> j <span class="fu">-</span> <span class="dv">1</span> <span class="fu">:.</span> k)</code></pre>
-</section>
-<section id="concurrency" class="slide level1">
-<h1>Concurrency</h1>
-</section>
-<section id="concurrent-http" class="slide level1">
-<h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="kw">import </span><span class="dt">Control.Concurrent</span>
-<span class="kw">import </span><span class="dt">Network.HTTP</span>
-
-<span class="ot">getHTTP ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
-getHTTP url <span class="fu">=</span> simpleHTTP (getRequest url) <span class="fu">&gt;&gt;=</span> getResponseBody
-
-<span class="ot">urls ::</span> [<span class="dt">String</span>]
-urls <span class="fu">=</span> map (<span class="st">&quot;http://ifconfig.me/&quot;</span><span class="fu">++</span>) [<span class="st">&quot;ip&quot;</span>, <span class="st">&quot;host&quot;</span>]
-
-<span class="ot">startRequest ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">MVar</span> ())
-startRequest url <span class="fu">=</span> <span class="kw">do</span>
-  v <span class="ot">&lt;-</span> newEmptyMVar
-  forkIO (getHTTP url <span class="fu">&gt;&gt;=</span> putStr <span class="fu">&gt;&gt;</span> putMVar v ())
-  return v
-
-<span class="ot">main ::</span> <span class="dt">IO</span> ()
-main <span class="fu">=</span> <span class="kw">do</span>
-  mvars <span class="ot">&lt;-</span> mapM startRequest urls
-  mapM_ takeMVar mvars</code></pre>
-</section>
 <section id="why-not-haskell" class="slide level1">
 <h1>Why not Haskell?</h1>
 <ul>
@@ -1359,9 +1297,9 @@ sum <span class="fu">=</span> go <span class="dv">0</span>
 sum <span class="fu">=</span> go <span class="dv">0</span>
   <span class="kw">where</span>
     go acc _
-      <span class="fu">|</span> seq acc <span class="dt">False</span> <span class="fu">=</span> undefined
-    go acc (x<span class="fu">:</span>xs)     <span class="fu">=</span> go (acc <span class="fu">+</span> x) (go xs)
-    go acc []         <span class="fu">=</span> acc</code></pre>
+      <span class="fu">|</span> acc <span class="ot">`seq`</span> <span class="dt">False</span> <span class="fu">=</span> undefined
+    go acc (x<span class="fu">:</span>xs)       <span class="fu">=</span> go (acc <span class="fu">+</span> x) (go xs)
+    go acc []           <span class="fu">=</span> acc</code></pre>
 </section>
 <section id="laziness-behavior-4" class="slide level1 big-code">
 <h1></h1>
@@ -1384,11 +1322,11 @@ sum <span class="fu">=</span> go <span class="dv">0</span>
 <dd><a href="http://book.realworldhaskell.org/">Real World Haskell</a>
 </dd>
 <dt>Lectures</dt>
-<dd><a href="http://www.scs.stanford.edu/11au-cs240h/">Functional Systems in Haskell</a> - CS240h Autumn 2011, Stanford
+<dd><a href="http://www.seas.upenn.edu/~cis194/">Introduction to Haskell</a> - CIS 194 Spring 2013, UPenn
+</dd>
+<dd><a href="http://www.scs.stanford.edu/14sp-cs240h/">Functional Systems in Haskell</a> - CS240h Autumn 2014, Stanford
 </dd>
 <dd><a href="http://shuklan.com/haskell/index.html">Introduction to Haskell</a> - CS1501 Spring 2013, UVA
-</dd>
-<dd><a href="http://www.seas.upenn.edu/~cis194/">Introduction to Haskell</a> - CIS 194 Spring 2013, UPenn
 </dd>
 <dd><a href="http://courses.cms.caltech.edu/cs11/material/haskell/">Haskell Track</a> - CS 11 Fall 2011, Caltech
 </dd>

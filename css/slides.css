@@ -26,6 +26,7 @@
 .reveal pre code { padding: 0; }
 .reveal section pre { box-shadow: none; }
 .small-code pre { font-size: 0.45em; }
+.medium-code pre { font-size: 0.725em; }
 .big-code pre { font-size: 0.9em; box-shadow: none; }
 
 #concurrency-table { width: 100%; color: #666; }
