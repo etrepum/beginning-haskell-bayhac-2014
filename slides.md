@@ -10,6 +10,8 @@
 <h4>
 [bob.ippoli.to/beginning-haskell-bayhac-2014]
 </h4>
+<br><br>
+<h4><strong>Please install GHC now</strong> [bit.ly/install-ghc](http://bit.ly/install-ghc)</h4>
 
 # Who am I?
 
@@ -28,6 +30,14 @@
 - Nice syntax (not too heavy or lightweight)
 - Fantastic community & ecosystem
 
+# Use the Hoogle
+
+* [haskell.org/hoogle](http://www.haskell.org/hoogle/)
+* Search for [Prelude](http://www.haskell.org/hoogle/?hoogle=Prelude)
+* The [Prelude module](http://hackage.haskell.org/package/base-4.7.0.0/docs/Prelude.html)
+  contains all of the built-in functions, types, and typeclasses
+* Most of Haskell is written in Haskell, use the source links!
+
 # Haskell Syntax
 
 Types
@@ -40,163 +50,94 @@ Values
 ~   Functions
 ~   Control flow
 
-# Relative to Erlang
+# Types
 
-* Syntax is minimal & familiar
-* Haskell's pattern matching is not as clever as Erlang's
-* Types are kinda like having Dialyzer for every compile<br>
-  (although Dialyzer is really quite different!)
-* Typeclasses are nice, Erlang doesn't have them
-* Erlang is probably (much) better for long-running systems
+* Examples: `Bool`, `Int`, `[a]`, `Maybe a`
+* Start with a capital letter
+* Defined with `data` or `newtype`
+* Aliases made with `type`
 
-# lists:map/2 {.big-code}
+# Sum Types {.big-code}
 
-```erlang
-map(F, [H|T]) ->
-    [F(H)|map(F, T)];
-map(F, []) when is_function(F, 1) -> [].
-```
-
-# map {.big-code}
+* Sum types enumerate all possible inhabitants
+* Bool has 2 possibilities, Ordering has 3, ...
 
 ```haskell
-map _ []     = []
-map f (x:xs) = f x : map f xs
+data Bool = True | False
+
+data Ordering = LT | EQ | GT
+
+data Choice = Definitely | Possibly | NoWay
+
+data Int = ... | -1 | 0 | 1 | 2 | ...
+
+data Char = ... | 'a' | 'b' | ...
 ```
 
-# lists:map/2 (typed) {.big-code}
+# Product Types {.big-code}
 
-```erlang
--spec map(Fun, List1) -> List2 when
-      Fun :: fun((A) -> B),
-      List1 :: [A],
-      List2 :: [B],
-      A :: term(),
-      B :: term().
-
-map(F, [H|T]) ->
-    [F(H)|map(F, T)];
-map(F, []) when is_function(F, 1) -> [].
-```
-
-# map (typed) {.big-code}
+* Product types are like structs, with fields that contain other types
+* Choices has `3 * 3 == 9` possible inhabitants
+* Can name these fields using record syntax (defines getters automatically)
 
 ```haskell
-map :: (a -> b) -> [a] -> [b]
-map _ []     = []
-map f (x:xs) = f x : map f xs
-```
-
-# lists:foldr/3 {.big-code}
-
-```erlang
--spec foldr(Fun, Acc0, List) -> Acc1 when
-      Fun :: fun((Elem :: T, AccIn) -> AccOut),
-      Acc0 :: term(),
-      Acc1 :: term(),
-      AccIn :: term(),
-      AccOut :: term(),
-      List :: [T],
-      T :: term().
-
-foldr(F, Accu, [Hd|Tail]) ->
-    F(Hd, foldr(F, Accu, Tail));
-foldr(F, Accu, []) when is_function(F, 2) -> Accu.
-```
-
-# foldr {.big-code}
-
-```haskell
-foldr :: (a -> b -> b) -> b -> [a] -> b
-foldr k z = go
-   where
-     go []     = z
-     go (y:ys) = y `k` go ys
-```
-
-# Sum Type {.small-title .big-code}
-
-```erlang
-%% sum type, 3 possible values
--type choice() :: definitely
-                | possibly
-                | no_way.
-```
-
-# Sum Type {.small-title .big-code}
-
-```haskell
--- sum type, 3 possible values
-data Choice = Definitely
-            | Possibly
-            | NoWay
-```
-
-# Product Type {.small-title .big-code}
-
-```erlang
-%% product type, 9 possible values (3 * 3)
--type choices() :: {choice(), choice()}.
-```
-
-# Product Type {.small-title .big-code}
-
-```haskell
--- product type, 9 possible values (3 * 3)
 data Choices = Choices Choice Choice
 
--- as a tuple with a type alias
--- NOT THE SAME AS ABOVE! :)
-type Choices = (Choice, Choice)
+data Coord = Coord Int Int
+
+data Coord = Coord { x :: Int, y :: Int }
 ```
 
-# Product Type (Record) {.small-title .big-code}
+# Sum of Products {.big-code}
 
-```erlang
-%% record syntax
--record(choices,
-        fst_choice :: choice(),
-        snd_choice :: choice()).
-
-%% getters need to be implemented manually
--spec fst_choice(#choices{}) -> choice().
-fst_choice(#choices{fst_choices=X}) -> X.
-
--spec snd_choice(#choices{}) -> choice().
-snd_choice(#choices{snd_choices=X}) -> X.
-```
-
-# Product Type (Record) {.small-title .big-code}
+* Possibly has `(1 * 2) + 1` possibilities
 
 ```haskell
--- record syntax defines accessors automatically
-data Choices =
-  Choices { fstChoice :: Choice
-          , sndChoice :: Choice
-          }
+data Possibly = Certainly Bool
+              | Uncertain
 
--- these getters are automatically defined
-fstChoice :: Choices -> Choice
-fstChoice (Choices { fstChoice = x }) = x
+data DrawCommand = Point Int Int
+                 | Line Int Int Int Int
+				 | Rect Int Int Int Int
 
-sndChoice :: Choices -> Choice
-sndChoice (Choices { sndChoice = x }) = x
+data IntTree = Node Int IntTree IntTree
+	         | Leaf
 ```
 
-# Abstract Data Type {.small-title .big-code}
+# Abstract Data Types {.big-code}
 
-```erlang
-%% abstract data type for a list
--type cons(A) :: nil
-               | {cons, A, cons(A)}.
-```
-
-# Abstract Data Type {.small-title .big-code}
+* Type variables are lowercase
+* `type` creates aliases (can help readability)
 
 ```haskell
--- abstract data type for a list
-data List a = Nil
-            | Cons a (List a)
+data List a = Cons a (List a)
+            | Nil
+
+data Maybe a = Just a
+	         | Nothing
+
+type IntList = List Int
+type MaybeBool = Maybe Bool
+type String = [Char]
+```
+
+# Special Type Syntax {.big-code}
+
+* Unit, Tuples, Lists, and Functions have special syntax
+* Can also be written in prefix form
+
+```haskell
+type Unit = ()
+
+type ListOfInt = [Int]
+type ListOfInt = [] Int
+
+type AddFun = Int -> Int -> Int
+type AddFun = Int -> (Int -> Int)
+type AddFun = (->) Int ((->) Int Int)
+
+type IntTuple = (Int, Int)
+type IntTuple = (,) Int Int
 ```
 
 # {#types-and-constructors-1 .small-title .big-code .highlight-type}
@@ -250,14 +191,22 @@ case success True of
   _         -> ()
 ```
 
-# Pattern Matching {.big-code}
+# map {.big-code}
 
-```erlang
--spec is_just({just, A} | nothing) -> boolean().
-is_just({just, _}) ->
-    true;
-is_just(nothing) ->
-    false.
+```haskell
+map :: (a -> b) -> [a] -> [b]
+map _ []     = []
+map f (x:xs) = f x : map f xs
+```
+
+# foldr {.big-code}
+
+```haskell
+foldr :: (a -> b -> b) -> b -> [a] -> b
+foldr k z = go
+   where
+     go []     = z
+     go (y:ys) = y `k` go ys
 ```
 
 # Pattern Matching {.big-code}
@@ -270,41 +219,19 @@ isJust Nothing  = False
 
 # Pattern Matching {.big-code}
 
-Erlang's pattern matching allows non-linear patterns.
-
-```erlang
--spec is_equal(A, A) -> boolean() when
-      A :: term().
-is_equal(A, A) -> true;
-is_equal(_, _) -> false.
-```
-
-# Pattern Matching {.big-code}
-
-Haskell's... does not.
+Haskell only implements linear patterns
 
 ```haskell
+-- DOES NOT WORK!
 isEqual :: a -> a -> Bool
-isEqual a b = undefined
+isEqual a a = True
+isEqual _ _ = False
 ```
 
 <blockquote>
 This isn't even possible!
 Only constructors can be pattern matched.
 Types have no built-in equality.
-</blockquote>
-
-# &#96;Infix&#96; and (Prefix) {.big-code}
-
-```erlang
-%% Symbolic operators can be used
-%% as functions from the erlang module
-erlang:'+'(A, B).
-
-```
-
-<blockquote>
-Erlang doesn't have user-defined infix operators
 </blockquote>
 
 # &#96;Infix&#96; and (Prefix) {.big-code}
@@ -323,25 +250,6 @@ x `elem` xs
 infixr 5 `append`
 a `append` b = a ++ b
 
-```
-
-# Functions & Lambdas {.big-code}
-
-```erlang
--spec add(integer(), integer()) -> integer().
-add(X, Acc) ->
-    X + Acc.
-
--spec sum_fun([integer()]) -> integer().
-sum_fun(Xs) ->
-    lists:foldl(fun add/2, 0, Xs).
-
--spec sum_lambda([integer()]) -> integer().
-sum_lambda(Xs) ->
-    lists:foldl(
-        fun (X, Acc) -> X + Acc end,
-        0,
-        Xs).
 ```
 
 # Functions & Lambdas {.big-code}
@@ -421,16 +329,6 @@ sumLambda <span class="fu">=</span> foldl <span class="fu">(+)</span> <span clas
 
 # Guards {.big-code}
 
-```erlang
--spec is_negative(number()) -> boolean().
-is_negative(X) when X < 0 ->
-  true;
-is_negative(_) ->
-  false.
-```
-
-# Guards {.big-code}
-
 ```haskell
 isNegative :: (Num a) => a -> Bool
 isNegative x
@@ -474,22 +372,6 @@ someRatio = 1.2345
 
 # Lists & Tuples {.big-code .small-title}
 
-```erlang
-some_list() ->
-    [1, 2, 3].
-
-some_other_list() ->
-    [4 | [5 | [6 | []]]].
-
-some_tuple() ->
-    {10, $4}.
-
-some_string() ->
-    "foo".
-```
-
-# Lists & Tuples {.big-code .small-title}
-
 ```haskell
 -- [a], type can be written prefix as `[] a`
 someList, someOtherList :: [Int]
@@ -507,13 +389,6 @@ someOtherTuple = (,) 4 '2'
 someString :: String
 someString = "foo"
 ```
-
-# Typeclass Syntax {.big-code}
-
-* Erlang doesn't have typeclasses.
-
-* Elixir has Protocols, which are closer,
-  but they are also not typeclasses.
 
 # Typeclass Syntax {.big-code}
 
@@ -567,15 +442,6 @@ data Choice = Definitely
                      , Show, Read )
 ```
 
-# QuickCheck {.big-code}
-
-```erlang
-prop_itsthere() ->
-    ?FORALL(I,int(),
-        [I] == queue:to_list(
-            queue:cons(I,
-                queue:new()))).
-```
 
 # QuickCheck {.big-code}
 
@@ -600,24 +466,6 @@ $ ghci
                        toList (empty |> i))
 +++ OK, passed 100 tests.
 ```
-
-# Do syntax {.big-code .highlight}
-
-<!--
-```erlang
--spec main([string()]) -> ok.
-main(_Args) ->
-    {ok, Secret} = file:read_file("/etc/passwd"),
-    file:write_file("/tmp/passwd", Secret),
-    ok.
-```
--->
-
-<pre class="sourceCode erlang"><code class="sourceCode erlang"><span class="kw">-</span><span class="ch">spec</span> <span class="fu">main([string()])</span> <span class="kw">-&gt;</span> <span class="ch">ok</span><span class="fu">.</span>
-<span class="fu">main(</span><span class="dt">_Args</span><span class="fu">)</span> <span class="kw">-&gt;</span>
-  <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="dt">Secret</span><span class="fu">}</span> <span class="kw">=</span> <span class="fu">file:read_file(</span><span class="st">"/etc/passwd"</span><span class="fu">)<span class="hl">,</span></span>
-  <span class="fu">file:write_file(</span><span class="st">"/tmp/passwd"</span><span class="fu">,</span> <span class="dt">Secret</span><span class="fu">)<span class="hl">,</span></span>
-  <span class="ch">ok</span><span class="fu"><span class="hl">.</span></span></code></pre>
 
 # Do syntax (IO) {.big-code}
 
@@ -685,15 +533,6 @@ main <span class="fu">=</span>
 main <span class="fu">=</span>
   readFile <span class="st">"/etc/passwd"</span> <span class="fu">&gt;&gt;=</span>
   writeFile <span class="st">"/tmp/passwd"</span></code></pre>
-
-# Do syntax ([a]) {.big-code}
-
-```erlang
--spec flat_map(fun((A) -> [B]), [A]) -> [B] when
-  A :: term(),
-  B :: term().
-flat_map(F, Xs) -> [ Y || X <- Xs, Y <- F(X) ].
-```
 
 # Do syntax ([a]) {.big-code}
 
