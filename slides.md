@@ -515,6 +515,12 @@ someString :: String
 someString = "foo"
 ```
 
+# Challenge?
+
+Finish this dice game (see TODO):
+
+http://lpaste.net/104237
+
 # Typeclass Syntax {.big-code}
 
 ```haskell
