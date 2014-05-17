@@ -11,7 +11,8 @@
 [bob.ippoli.to/beginning-haskell-bayhac-2014]
 </h4>
 <br><br>
-<h4><strong>Please install GHC now</strong> [bit.ly/install-ghc](http://bit.ly/install-ghc)</h4>
+<h4><strong>Now is a good time to install GHC</strong><br>
+<br>[bit.ly/install-ghc](http://bit.ly/install-ghc)</h4>
 
 # Who am I?
 
@@ -19,16 +20,23 @@
   (ported [exercism.io](http://exercism.io) curriculum)
 - Spending most of my time with
   [Mission Bit](http://www.missionbit.com/), teaching
-  after school coding classes (but not in Haskell... yet)
+  after school coding classes (but not in Haskell… yet)
 - Doing a bit of advising/investing in startups
 
 # Haskell's Appeal
 
 - Abstractions can often be used without penalty
-- Efficient parallel and concurrent programming
+- Efficient serial, parallel and concurrent programming
 - Type system makes maintenance easier
 - Nice syntax (not too heavy or lightweight)
 - Fantastic community & ecosystem
+
+# My stumbling blocks
+
+- So `.` many `<$>` operators `>>=`, many `$` without `<*>` names `!!`
+- Types took some getting used to
+- Non-strict evaluation didn't match my intuition/experience
+- Loads of new terminology
 
 # Use the Hoogle
 
@@ -60,7 +68,7 @@ Terms
 # Sum Types {.big-code}
 
 * Sum types enumerate all possible inhabitants
-* Bool has 2 possibilities, Ordering has 3, ...
+* Bool has 2 possibilities, Ordering has 3, …
 
 ```haskell
 data Bool = True | False
@@ -69,9 +77,9 @@ data Ordering = LT | EQ | GT
 
 data Choice = Definitely | Possibly | NoWay
 
-data Int = ... | -1 | 0 | 1 | 2 | ...
+data Int = … | -1 | 0 | 1 | 2 | …
 
-data Char = ... | 'a' | 'b' | ...
+data Char = … | 'a' | 'b' | …
 ```
 
 # Product Types {.big-code}
@@ -198,7 +206,6 @@ case success True of
 # {#runhaskell .medium-code}
 
 ```bash
-
 $ runhaskell --help
 Usage: runghc [runghc flags] [GHC flags] module [program args]
 
@@ -210,8 +217,7 @@ The runghc flags are
 
 # {#ghci-start .medium-code}
 
-```haskell
-
+```
 $ ghci
 GHCi, version 7.8.2: http://www.haskell.org/ghc/  :? for help
 Loading package ghc-prim ... linking ... done.
@@ -225,7 +231,6 @@ h>
 <h2>
 `:t` shows type information</h2>
 ```haskell
-
 h> :t map
 map :: (a -> b) -> [a] -> [b]
 h> :t map (+1)
@@ -237,8 +242,8 @@ h> :t (>>=)
 # {#ghci-i-typeclass .big-code}
 
 <h2>`:i` shows typeclass info</h2>
-```haskell
 
+```haskell
 h> :i Num
 class Num a where
   (+) :: a -> a -> a
@@ -258,8 +263,8 @@ instance Num Double -- Defined in `GHC.Float'
 # {#ghci-i-value .big-code}
 
 <h2>`:i` shows term info</h2>
-```haskell
 
+```haskell
 h> :info map
 map :: (a -> b) -> [a] -> [b]   
 -- Defined in `GHC.Base'
@@ -274,8 +279,8 @@ infixl 1 >>=
 # {#ghci-i-type .big-code}
 
 <h2>`:i` shows type info</h2>
-```haskell
 
+```haskell
 h> :info Int
 data Int = ghc-prim:GHC.Types.I#
   ghc-prim:GHC.Prim.Int#
@@ -295,8 +300,8 @@ instance Show Int -- Defined in `GHC.Show'
 
 <h2>`:l` load a module</h2>
 <h2>`:r` to reload</h2>
-```haskell
 
+```haskell
 h> :! echo 'hello = print "hello"' > Hello.hs
 h> :l Hello
 [1 of 1] Compiling Main ( Hello.hs, interpreted )
@@ -624,7 +629,6 @@ main = do
 # Do syntax {.big-code}
 
 ```haskell
-
 do m
 -- desugars to:
 m
@@ -742,7 +746,6 @@ flatMap = (=<<)
 # {#side-effects .big-code}
 
 ```haskell
-
 -- WordCount1.hs
 
 main :: IO ()
@@ -755,7 +758,6 @@ main = do
 # {#side-effects-2 .big-code}
 
 ```haskell
-
 -- WordCount2.hs
 
 main :: IO ()
@@ -768,7 +770,6 @@ main =
 # {#side-effects-3 .big-code}
 
 ```haskell
-
 -- WordCount3.hs
 
 main :: IO ()
@@ -789,7 +790,6 @@ main = getContents >>= print . length . words
 # Common combinators {.big-code}
 
 ```haskell
-
 -- Function composition
 (.) :: (b -> c) -> (a -> b) -> a -> c
 f . g = \x -> f (g x)
@@ -903,7 +903,6 @@ https://ghc.haskell.org/trac/ghc/wiki/RewriteRules
 # {#ghc-rules-ex .big-code}
 
 ```haskell
-
 {-# RULES
 "ByteString specialise break (x==)" forall x.
     break ((==) x) = breakByte x
@@ -915,7 +914,6 @@ https://ghc.haskell.org/trac/ghc/wiki/RewriteRules
 # GHC RULES {.big-code}
 
 ```haskell
-
 {-# RULES
 "ByteString specialise break (x==)" forall x.
     break ((==) x) = breakByte x
@@ -932,7 +930,6 @@ splitLine = break (=='\n')
 # GHC RULES {.big-code}
 
 ```haskell
-
 {-# RULES
 "ByteString specialise break (x==)" forall x.
     break ((==) x) = breakByte x
@@ -1035,7 +1032,6 @@ putStrLn <span class="hl"><span class="st">"2"</span></span></code></pre>
 # {#control-flow .big-code}
 
 ```haskell
-
 if' :: Bool -> a -> a -> a
 if' cond a b = case cond of
   True  -> a
@@ -1053,7 +1049,6 @@ const x = \_ -> x
 # {#infinite-programming .big-code}
 
 ```haskell
-
 fib :: [Integer]
 fib = 0 : 1 : zipWith (+) fib (tail fib)
 
@@ -1078,10 +1073,9 @@ takeWhile p (x:xs)
 * Built-in types are not special (other than syntax)
 * Typeclasses for *ad hoc* polymorphism (overloading)
 
-# {#constraints}
+# {#constraints .medium-code}
 
 ```haskell
-
 h> let f x = head True
 
 <interactive>:23:16:
@@ -1089,23 +1083,26 @@ h> let f x = head True
     In the first argument of `head', namely `True'
     In the expression: head True
     In an equation for `f': f x = head True
+```
 
+```haskell
 h> let f x = heads True
 
 <interactive>:24:11:
     Not in scope: `heads'
     Perhaps you meant one of these:
-      `reads' (imported from Prelude), `head' (imported from Prelude)
+      `reads' (imported from Prelude),
+	  `head' (imported from Prelude)
 ```
 
-# {#bottoms}
-```haskell
+# {#bottoms .medium-code}
 
+```haskell
 h> let x = x in x
 -- Infinite recursion, not a fun case to deal with!
 
 h> case False of True -> ()
-*** Exception: <interactive>:29:1-24: Non-exhaustive patterns in case
+*** Exception: <interactive>:29:1-24: Non-exhaustive patterns …
 
 h> head []
 *** Exception: Prelude.head: empty list
@@ -1117,10 +1114,9 @@ h> undefined
 *** Exception: Prelude.undefined
 ```
 
-# {#polymorphic}
+# {#polymorphic .medium-code}
 
 ```haskell
-
 -- Polymorphic and recursive
 data List a = Cons a (List a)
             | Nil
@@ -1152,7 +1148,6 @@ treeToList root = go root Nil
 # {#typeclass-example .big-code}
 
 ```haskell
-
 module List where
 
 data List a = Cons a (List a)
@@ -1173,7 +1168,6 @@ instance Functor List where
 
 <!-- http://www.haskell.org/ghc/docs/latest/html/users_guide/deriving.html -->
 ```haskell
-
 {-# LANGUAGE DeriveFunctor #-}
 
 module List where
@@ -1187,7 +1181,6 @@ data List a = Cons a (List a)
 # {#newtype .big-code}
 
 ```haskell
-
 import Data.List (sort)
 
 newtype Down a = Down { unDown :: a }
@@ -1215,7 +1208,7 @@ Applicative
 Monad
 ~   Applicative, but can return any structure
 
-# Monoid
+# Monoid {.big-code}
 
 ```haskell
 class Monoid a where
@@ -1231,7 +1224,7 @@ infixr 6 <>
 (<>) = mappend
 ```
 
-# Functor
+# Functor {.big-code}
 
 ```haskell
 class Functor f where
@@ -1249,7 +1242,7 @@ infixl 4 <$>
 (<$>) = fmap
 ```
 
-# Applicative
+# Applicative {.big-code}
 
 ```haskell
 class (Functor f) => Applicative f where
@@ -1267,7 +1260,7 @@ instance Applicative Maybe where
   _      <*> _      = Nothing
 ```
 
-# Monad
+# Monad {.big-code}
 
 ```haskell
 class Monad m where
@@ -1286,9 +1279,7 @@ instance Monad Maybe where
   Nothing >>= _ = Nothing
 ```
 
-# Parser Combinators
-
-# {#parsing}
+# Parsing
 
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
@@ -1335,7 +1326,6 @@ Terminology from category theory can be intimidating (at first)!
 # {#laziness-behavior-1 .big-code}
 
 ```haskell
-
 sum :: Num a => [a] -> a
 sum []     = 0
 sum (x:xs) = x + sum xs

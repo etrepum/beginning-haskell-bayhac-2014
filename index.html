@@ -58,7 +58,7 @@ Bob Ippolito (<a href="https://twitter.com/etrepum"><span class="citation" data-
 </h4>
 <br><br>
 <h4>
-<strong>Please install GHC now</strong> <a href="http://bit.ly/install-ghc">bit.ly/install-ghc</a>
+<strong>Now is a good time to install GHC</strong><br> <br><a href="http://bit.ly/install-ghc">bit.ly/install-ghc</a>
 </h4>
 
 </section>
@@ -66,7 +66,7 @@ Bob Ippolito (<a href="https://twitter.com/etrepum"><span class="citation" data-
 <h1>Who am I?</h1>
 <ul>
 <li>Haskell user since 2012 (ported <a href="http://exercism.io">exercism.io</a> curriculum)</li>
-<li>Spending most of my time with <a href="http://www.missionbit.com/">Mission Bit</a>, teaching after school coding classes (but not in Haskell... yet)</li>
+<li>Spending most of my time with <a href="http://www.missionbit.com/">Mission Bit</a>, teaching after school coding classes (but not in Haskell… yet)</li>
 <li>Doing a bit of advising/investing in startups</li>
 </ul>
 </section>
@@ -74,10 +74,19 @@ Bob Ippolito (<a href="https://twitter.com/etrepum"><span class="citation" data-
 <h1>Haskell's Appeal</h1>
 <ul>
 <li>Abstractions can often be used without penalty</li>
-<li>Efficient parallel and concurrent programming</li>
+<li>Efficient serial, parallel and concurrent programming</li>
 <li>Type system makes maintenance easier</li>
 <li>Nice syntax (not too heavy or lightweight)</li>
 <li>Fantastic community &amp; ecosystem</li>
+</ul>
+</section>
+<section id="my-stumbling-blocks" class="slide level1">
+<h1>My stumbling blocks</h1>
+<ul>
+<li>So <code>.</code> many <code>&lt;$&gt;</code> operators <code>&gt;&gt;=</code>, many <code>$</code> without <code>&lt;*&gt;</code> names <code>!!</code></li>
+<li>Types took some getting used to</li>
+<li>Non-strict evaluation didn't match my intuition/experience</li>
+<li>Loads of new terminology</li>
 </ul>
 </section>
 <section id="use-the-hoogle" class="slide level1">
@@ -121,7 +130,7 @@ Bob Ippolito (<a href="https://twitter.com/etrepum"><span class="citation" data-
 <h1>Sum Types</h1>
 <ul>
 <li>Sum types enumerate all possible inhabitants</li>
-<li>Bool has 2 possibilities, Ordering has 3, ...</li>
+<li>Bool has 2 possibilities, Ordering has 3, …</li>
 </ul>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Bool</span> <span class="fu">=</span> <span class="dt">True</span> <span class="fu">|</span> <span class="dt">False</span>
 
@@ -129,9 +138,9 @@ Bob Ippolito (<a href="https://twitter.com/etrepum"><span class="citation" data-
 
 <span class="kw">data</span> <span class="dt">Choice</span> <span class="fu">=</span> <span class="dt">Definitely</span> <span class="fu">|</span> <span class="dt">Possibly</span> <span class="fu">|</span> <span class="dt">NoWay</span>
 
-<span class="kw">data</span> <span class="dt">Int</span> <span class="fu">=</span> <span class="fu">...</span> <span class="fu">|</span> <span class="fu">-</span><span class="dv">1</span> <span class="fu">|</span> <span class="dv">0</span> <span class="fu">|</span> <span class="dv">1</span> <span class="fu">|</span> <span class="dv">2</span> <span class="fu">|</span> <span class="fu">...</span>
+<span class="kw">data</span> <span class="dt">Int</span> <span class="fu">=</span> … <span class="fu">|</span> <span class="fu">-</span><span class="dv">1</span> <span class="fu">|</span> <span class="dv">0</span> <span class="fu">|</span> <span class="dv">1</span> <span class="fu">|</span> <span class="dv">2</span> <span class="fu">|</span> …
 
-<span class="kw">data</span> <span class="dt">Char</span> <span class="fu">=</span> <span class="fu">...</span> <span class="fu">|</span> <span class="ch">&#39;a&#39;</span> <span class="fu">|</span> <span class="ch">&#39;b&#39;</span> <span class="fu">|</span> <span class="fu">...</span></code></pre>
+<span class="kw">data</span> <span class="dt">Char</span> <span class="fu">=</span> … <span class="fu">|</span> <span class="ch">&#39;a&#39;</span> <span class="fu">|</span> <span class="ch">&#39;b&#39;</span> <span class="fu">|</span> …</code></pre>
 </section>
 <section id="product-types" class="slide level1 big-code">
 <h1>Product Types</h1>
@@ -259,8 +268,7 @@ Interactive Haskell
 </section>
 <section id="runhaskell" class="slide level1 medium-code">
 <h1></h1>
-<pre class="sourceCode bash"><code class="sourceCode bash">
-$ <span class="kw">runhaskell</span> --help
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">runhaskell</span> --help
 <span class="kw">Usage</span>: runghc [runghc flags] [GHC flags] module [program args]
 
 <span class="kw">The</span> runghc flags are
@@ -270,21 +278,19 @@ $ <span class="kw">runhaskell</span> --help
 </section>
 <section id="ghci-start" class="slide level1 medium-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="fu">$</span> ghci
-<span class="dt">GHCi</span>, version <span class="dv">7</span><span class="fu">.</span><span class="dv">8</span><span class="fu">.</span><span class="dv">2</span><span class="fu">:</span> http<span class="fu">://</span>www<span class="fu">.</span>haskell<span class="fu">.</span>org<span class="fu">/</span>ghc<span class="fu">/</span>  <span class="fu">:?</span> for help
-<span class="dt">Loading</span> package ghc<span class="fu">-</span>prim <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
-<span class="dt">Loading</span> package integer<span class="fu">-</span>gmp <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
-<span class="dt">Loading</span> package base <span class="fu">...</span> linking <span class="fu">...</span> done<span class="fu">.</span>
-h<span class="fu">&gt;</span> </code></pre>
+<pre><code>$ ghci
+GHCi, version 7.8.2: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+h&gt; </code></pre>
 </section>
 <section id="ghci-t" class="slide level1 big-code">
 <h1></h1>
 <h2>
 <code>:t</code> shows type information
 </h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:</span>t map
+<pre class="sourceCode haskell"><code class="sourceCode haskell">h<span class="fu">&gt;</span> <span class="fu">:</span>t map
 map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
 h<span class="fu">&gt;</span> <span class="fu">:</span>t map (<span class="fu">+</span><span class="dv">1</span>)
 map (<span class="fu">+</span><span class="dv">1</span>)<span class="ot"> ::</span> <span class="dt">Num</span> b <span class="ot">=&gt;</span> [b] <span class="ot">-&gt;</span> [b]
@@ -296,8 +302,8 @@ h<span class="fu">&gt;</span> <span class="fu">:</span>t (<span class="fu">&gt;&
 <h2>
 <code>:i</code> shows typeclass info
 </h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:</span>i <span class="dt">Num</span>
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">h<span class="fu">&gt;</span> <span class="fu">:</span>i <span class="dt">Num</span>
 <span class="kw">class</span> <span class="dt">Num</span> a <span class="kw">where</span>
 <span class="ot">  (+) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
 <span class="ot">  (*) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
@@ -317,8 +323,8 @@ h<span class="fu">&gt;</span> <span class="fu">:</span>i <span class="dt">Num</s
 <h2>
 <code>:i</code> shows term info
 </h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:</span>info map
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">h<span class="fu">&gt;</span> <span class="fu">:</span>info map
 map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]   
 <span class="co">-- Defined in `GHC.Base&#39;</span>
 h<span class="fu">&gt;</span> <span class="fu">:</span>info (<span class="fu">&gt;&gt;=</span>)
@@ -333,8 +339,8 @@ h<span class="fu">&gt;</span> <span class="fu">:</span>info (<span class="fu">&g
 <h2>
 <code>:i</code> shows type info
 </h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:</span>info <span class="dt">Int</span>
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">h<span class="fu">&gt;</span> <span class="fu">:</span>info <span class="dt">Int</span>
 <span class="kw">data</span> <span class="dt">Int</span> <span class="fu">=</span> ghc<span class="fu">-</span>prim<span class="fu">:</span><span class="dt">GHC.Types.I</span><span class="st">#</span>
   ghc<span class="fu">-</span>prim<span class="fu">:</span><span class="dt">GHC.Prim.Int</span><span class="st">#</span>
   <span class="co">-- Defined in `ghc-prim:GHC.Types&#39;</span>
@@ -356,8 +362,8 @@ h<span class="fu">&gt;</span> <span class="fu">:</span>info <span class="dt">Int
 <h2>
 <code>:r</code> to reload
 </h2>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="fu">:!</span> echo <span class="ch">&#39;hello = print &quot;hello&quot;&#39;</span> <span class="fu">&gt;</span> Hello.hs
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">h<span class="fu">&gt;</span> <span class="fu">:!</span> echo <span class="ch">&#39;hello = print &quot;hello&quot;&#39;</span> <span class="fu">&gt;</span> Hello.hs
 h<span class="fu">&gt;</span> <span class="fu">:</span>l <span class="dt">Hello</span>
 [<span class="dv">1</span> <span class="kw">of</span> <span class="dv">1</span>] <span class="dt">Compiling</span> <span class="dt">Main</span> ( Hello.hs, interpreted )
 <span class="dt">Ok</span>, modules loaded<span class="fu">:</span> <span class="dt">Main</span><span class="fu">.</span>
@@ -642,8 +648,7 @@ main <span class="fu">=</span> <span class="kw">do</span>
 </section>
 <section id="do-syntax" class="slide level1 big-code">
 <h1>Do syntax</h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="kw">do</span> m
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">do</span> m
 <span class="co">-- desugars to:</span>
 m
 
@@ -747,8 +752,7 @@ flatMap <span class="fu">=</span> (<span class="fu">=&lt;&lt;</span>)</code></pr
 </section>
 <section id="side-effects" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="co">-- WordCount1.hs</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- WordCount1.hs</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> <span class="kw">do</span>
@@ -758,8 +762,7 @@ main <span class="fu">=</span> <span class="kw">do</span>
 </section>
 <section id="side-effects-2" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="co">-- WordCount2.hs</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- WordCount2.hs</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span>
@@ -769,8 +772,7 @@ main <span class="fu">=</span>
 </section>
 <section id="side-effects-3" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="co">-- WordCount3.hs</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- WordCount3.hs</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> getContents <span class="fu">&gt;&gt;=</span> print <span class="fu">.</span> length <span class="fu">.</span> words</code></pre>
@@ -787,8 +789,7 @@ main <span class="fu">=</span> getContents <span class="fu">&gt;&gt;=</span> pri
 </section>
 <section id="common-combinators" class="slide level1 big-code">
 <h1>Common combinators</h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="co">-- Function composition</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Function composition</span>
 <span class="ot">(.) ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c
 f <span class="fu">.</span> g <span class="fu">=</span> \x <span class="ot">-&gt;</span> f (g x)
 
@@ -861,8 +862,7 @@ https://ghc.haskell.org/trac/ghc/wiki/RewriteRules
 </section>
 <section id="ghc-rules-ex" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="co">{-# RULES</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">{-# RULES</span>
 <span class="co">&quot;ByteString specialise break (x==)&quot; forall x.</span>
 <span class="co">    break ((==) x) = breakByte x</span>
 <span class="co">&quot;ByteString specialise break (==x)&quot; forall x.</span>
@@ -871,8 +871,7 @@ https://ghc.haskell.org/trac/ghc/wiki/RewriteRules
 </section>
 <section id="ghc-rules-1" class="slide level1 big-code">
 <h1>GHC RULES</h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="co">{-# RULES</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">{-# RULES</span>
 <span class="co">&quot;ByteString specialise break (x==)&quot; forall x.</span>
 <span class="co">    break ((==) x) = breakByte x</span>
 <span class="co">&quot;ByteString specialise break (==x)&quot; forall x.</span>
@@ -886,8 +885,7 @@ splitLine <span class="fu">=</span> break (<span class="fu">==</span><span class
 </section>
 <section id="ghc-rules-2" class="slide level1 big-code">
 <h1>GHC RULES</h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="co">{-# RULES</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">{-# RULES</span>
 <span class="co">&quot;ByteString specialise break (x==)&quot; forall x.</span>
 <span class="co">    break ((==) x) = breakByte x</span>
 <span class="co">&quot;ByteString specialise break (==x)&quot; forall x.</span>
@@ -997,8 +995,7 @@ putStrLn <span class="hl"><span class="st">"2"</span></span></code></pre>
 </section>
 <section id="control-flow" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="ot">if&#39; ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">if&#39; ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
 if&#39; cond a b <span class="fu">=</span> <span class="kw">case</span> cond <span class="kw">of</span>
   <span class="dt">True</span>  <span class="ot">-&gt;</span> a
   <span class="dt">False</span> <span class="ot">-&gt;</span> b
@@ -1013,8 +1010,7 @@ const x <span class="fu">=</span> \_ <span class="ot">-&gt;</span> x</code></pre
 </section>
 <section id="infinite-programming" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="ot">fib ::</span> [<span class="dt">Integer</span>]
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">fib ::</span> [<span class="dt">Integer</span>]
 fib <span class="fu">=</span> <span class="dv">0</span> <span class="fu">:</span> <span class="dv">1</span> <span class="fu">:</span> zipWith (<span class="fu">+</span>) fib (tail fib)
 
 cycle<span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> [a]
@@ -1039,32 +1035,30 @@ takeWhile p (x<span class="fu">:</span>xs)
 <li>Typeclasses for <em>ad hoc</em> polymorphism (overloading)</li>
 </ul>
 </section>
-<section id="constraints" class="slide level1">
+<section id="constraints" class="slide level1 medium-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="kw">let</span> f x <span class="fu">=</span> head <span class="dt">True</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">h<span class="fu">&gt;</span> <span class="kw">let</span> f x <span class="fu">=</span> head <span class="dt">True</span>
 
 <span class="fu">&lt;</span>interactive<span class="fu">&gt;:</span><span class="dv">23</span><span class="fu">:</span><span class="dv">16</span><span class="fu">:</span>
     <span class="dt">Couldn&#39;t</span> match expected <span class="kw">type</span> <span class="ot">`[a0]&#39; with actual type `</span><span class="dt">Bool&#39;</span>
     <span class="dt">In</span> the first argument <span class="kw">of</span> <span class="ot">`head&#39;, namely `</span><span class="dt">True&#39;</span>
     <span class="dt">In</span> the expression<span class="fu">:</span> head <span class="dt">True</span>
-    <span class="dt">In</span> an equation for <span class="ot">`f&#39;: f x = head True</span>
+    <span class="dt">In</span> an equation for <span class="ot">`f&#39;: f x = head True</span></code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">h<span class="fu">&gt;</span> <span class="kw">let</span> f x <span class="fu">=</span> heads <span class="dt">True</span>
 
-<span class="ot">h&gt; let f x = heads True</span>
-
-<span class="ot">&lt;interactive&gt;:24:11:</span>
-<span class="ot">    Not in scope: `</span>heads&#39;
-    <span class="dt">Perhaps</span> you meant one <span class="kw">of</span> these<span class="fu">:</span>
-      <span class="ot">`reads&#39; (imported from Prelude), `</span>head&#39; (imported from <span class="dt">Prelude</span>)</code></pre>
+<span class="fu">&lt;</span>interactive<span class="fu">&gt;:</span><span class="dv">24</span><span class="fu">:</span><span class="dv">11</span><span class="fu">:</span>
+    <span class="dt">Not</span> <span class="kw">in</span> scope<span class="fu">:</span> <span class="ot">`heads&#39;</span>
+<span class="ot">    Perhaps you meant one of these:</span>
+<span class="ot">      `</span>reads&#39; (imported from <span class="dt">Prelude</span>),
+      <span class="ot">`head&#39; (imported from Prelude)</span></code></pre>
 </section>
-<section id="bottoms" class="slide level1">
+<section id="bottoms" class="slide level1 medium-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-h<span class="fu">&gt;</span> <span class="kw">let</span> x <span class="fu">=</span> x <span class="kw">in</span> x
+<pre class="sourceCode haskell"><code class="sourceCode haskell">h<span class="fu">&gt;</span> <span class="kw">let</span> x <span class="fu">=</span> x <span class="kw">in</span> x
 <span class="co">-- Infinite recursion, not a fun case to deal with!</span>
 
 h<span class="fu">&gt;</span> <span class="kw">case</span> <span class="dt">False</span> <span class="kw">of</span> <span class="dt">True</span> <span class="ot">-&gt;</span> ()
-<span class="fu">***</span> <span class="dt">Exception</span><span class="fu">:</span> <span class="fu">&lt;</span>interactive<span class="fu">&gt;:</span><span class="dv">29</span><span class="fu">:</span><span class="dv">1</span><span class="fu">-</span><span class="dv">24</span><span class="fu">:</span> <span class="dt">Non</span><span class="fu">-</span>exhaustive patterns <span class="kw">in</span> <span class="kw">case</span>
+<span class="fu">***</span> <span class="dt">Exception</span><span class="fu">:</span> <span class="fu">&lt;</span>interactive<span class="fu">&gt;:</span><span class="dv">29</span><span class="fu">:</span><span class="dv">1</span><span class="fu">-</span><span class="dv">24</span><span class="fu">:</span> <span class="dt">Non</span><span class="fu">-</span>exhaustive patterns …
 
 h<span class="fu">&gt;</span> head []
 <span class="fu">***</span> <span class="dt">Exception</span><span class="fu">:</span> Prelude.head<span class="fu">:</span> empty list
@@ -1075,10 +1069,9 @@ h<span class="fu">&gt;</span> error <span class="st">&quot;this throws an except
 h<span class="fu">&gt;</span> undefined
 <span class="fu">***</span> <span class="dt">Exception</span><span class="fu">:</span> Prelude.undefined</code></pre>
 </section>
-<section id="polymorphic" class="slide level1">
+<section id="polymorphic" class="slide level1 medium-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="co">-- Polymorphic and recursive</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Polymorphic and recursive</span>
 <span class="kw">data</span> <span class="dt">List</span> a <span class="fu">=</span> <span class="dt">Cons</span> a (<span class="dt">List</span> a)
             <span class="fu">|</span> <span class="dt">Nil</span>
             <span class="kw">deriving</span> (<span class="dt">Show</span>)
@@ -1108,8 +1101,7 @@ treeToList root <span class="fu">=</span> go root <span class="dt">Nil</span>
 </section>
 <section id="typeclass-example" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="kw">module</span> <span class="dt">List</span> <span class="kw">where</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">List</span> <span class="kw">where</span>
 
 <span class="kw">data</span> <span class="dt">List</span> a <span class="fu">=</span> <span class="dt">Cons</span> a (<span class="dt">List</span> a)
             <span class="fu">|</span> <span class="dt">Nil</span>
@@ -1126,8 +1118,7 @@ treeToList root <span class="fu">=</span> go root <span class="dt">Nil</span>
 <section id="typeclass-example-2" class="slide level1 big-code">
 <h1></h1>
 <!-- http://www.haskell.org/ghc/docs/latest/html/users_guide/deriving.html -->
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="ot">{-# LANGUAGE DeriveFunctor #-}</span>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE DeriveFunctor #-}</span>
 
 <span class="kw">module</span> <span class="dt">List</span> <span class="kw">where</span>
 
@@ -1137,8 +1128,7 @@ treeToList root <span class="fu">=</span> go root <span class="dt">Nil</span>
 </section>
 <section id="newtype" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-<span class="kw">import </span><span class="dt">Data.List</span> (sort)
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.List</span> (sort)
 
 <span class="kw">newtype</span> <span class="dt">Down</span> a <span class="fu">=</span> <span class="dt">Down</span> {<span class="ot"> unDown ::</span> a }
                  <span class="kw">deriving</span> (<span class="dt">Eq</span>)
@@ -1169,7 +1159,7 @@ reverseSort <span class="fu">=</span> map unDown <span class="fu">.</span> sort 
 </dd>
 </dl>
 </section>
-<section id="monoid" class="slide level1">
+<section id="monoid" class="slide level1 big-code">
 <h1>Monoid</h1>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Monoid</span> a <span class="kw">where</span>
 <span class="ot">  mempty ::</span> a
@@ -1183,7 +1173,7 @@ reverseSort <span class="fu">=</span> map unDown <span class="fu">.</span> sort 
 <span class="ot">(&lt;&gt;) ::</span> (<span class="dt">Monoid</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
 (<span class="fu">&lt;&gt;</span>) <span class="fu">=</span> mappend</code></pre>
 </section>
-<section id="functor" class="slide level1">
+<section id="functor" class="slide level1 big-code">
 <h1>Functor</h1>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="kw">where</span>
 <span class="ot">  fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b
@@ -1199,7 +1189,7 @@ reverseSort <span class="fu">=</span> map unDown <span class="fu">.</span> sort 
 <span class="ot">(&lt;$&gt;) ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b
 (<span class="fu">&lt;$&gt;</span>) <span class="fu">=</span> fmap</code></pre>
 </section>
-<section id="applicative" class="slide level1">
+<section id="applicative" class="slide level1 big-code">
 <h1>Applicative</h1>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> (<span class="dt">Functor</span> f) <span class="ot">=&gt;</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
 <span class="ot">  pure ::</span> a <span class="ot">-&gt;</span> f a
@@ -1215,7 +1205,7 @@ reverseSort <span class="fu">=</span> map unDown <span class="fu">.</span> sort 
   <span class="dt">Just</span> f <span class="fu">&lt;*&gt;</span> <span class="dt">Just</span> x <span class="fu">=</span> <span class="dt">Just</span> (f x)
   _      <span class="fu">&lt;*&gt;</span> _      <span class="fu">=</span> <span class="dt">Nothing</span></code></pre>
 </section>
-<section id="monad" class="slide level1">
+<section id="monad" class="slide level1 big-code">
 <h1>Monad</h1>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span>
 <span class="ot">  return ::</span> a <span class="ot">-&gt;</span> m a
@@ -1232,11 +1222,8 @@ reverseSort <span class="fu">=</span> map unDown <span class="fu">.</span> sort 
   <span class="dt">Just</span> x  <span class="fu">&gt;&gt;=</span> f <span class="fu">=</span> f x
   <span class="dt">Nothing</span> <span class="fu">&gt;&gt;=</span> _ <span class="fu">=</span> <span class="dt">Nothing</span></code></pre>
 </section>
-<section id="parser-combinators" class="slide level1">
-<h1>Parser Combinators</h1>
-</section>
 <section id="parsing" class="slide level1">
-<h1></h1>
+<h1>Parsing</h1>
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span>
 <span class="kw">module</span> <span class="dt">SJSON</span> <span class="kw">where</span>
 <span class="kw">import </span><span class="dt">Prelude</span> <span class="kw">hiding</span> (concat)
@@ -1278,8 +1265,7 @@ pJSON <span class="fu">=</span> choice [ pText, pObject, pArray ]
 </section>
 <section id="laziness-behavior-1" class="slide level1 big-code">
 <h1></h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">
-sum<span class="ot"> ::</span> <span class="dt">Num</span> a <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> a
+<pre class="sourceCode haskell"><code class="sourceCode haskell">sum<span class="ot"> ::</span> <span class="dt">Num</span> a <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> a
 sum []     <span class="fu">=</span> <span class="dv">0</span>
 sum (x<span class="fu">:</span>xs) <span class="fu">=</span> x <span class="fu">+</span> sum xs</code></pre>
 </section>
