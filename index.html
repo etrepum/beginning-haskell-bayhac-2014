@@ -508,13 +508,6 @@ sumLambda <span class="fu">=</span> foldl <span class="fu">(+)</span> <span clas
 <pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isNegative ::</span> (<span class="dt">Num</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 isNegative x
   <span class="fu">|</span> x <span class="fu">&lt;</span> <span class="dv">0</span>     <span class="fu">=</span> <span class="dt">True</span>
-  <span class="fu">|</span> otherwise <span class="fu">=</span> <span class="dt">False</span></code></pre>
-</section>
-<section id="guards-1" class="slide level1 big-code">
-<h1>Guards</h1>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">isNegative ::</span> (<span class="dt">Num</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
-isNegative x
-  <span class="fu">|</span> x <span class="fu">&lt;</span> <span class="dv">0</span>     <span class="fu">=</span> <span class="dt">True</span>
   <span class="fu">|</span> otherwise <span class="fu">=</span> <span class="dt">False</span>
 
 <span class="ot">absoluteValue ::</span> (<span class="dt">Num</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
@@ -560,8 +553,11 @@ someString <span class="fu">=</span> <span class="st">&quot;foo&quot;</span></co
 </section>
 <section id="challenge" class="slide level1">
 <h1>Challenge?</h1>
-<p>Finish this dice game (see TODO):</p>
-<p>http://lpaste.net/104237</p>
+Finish this dice game (see TODO): <br><br>
+<h1>
+<a href="http://lpaste.net/104237">lpaste.net/104237</a>
+</h1>
+
 </section>
 <section id="typeclass-syntax" class="slide level1 big-code">
 <h1>Typeclass Syntax</h1>

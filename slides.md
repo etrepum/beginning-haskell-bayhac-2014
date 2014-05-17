@@ -459,15 +459,6 @@ isNegative :: (Num a) => a -> Bool
 isNegative x
   | x < 0     = True
   | otherwise = False
-```
-
-# Guards {.big-code}
-
-```haskell
-isNegative :: (Num a) => a -> Bool
-isNegative x
-  | x < 0     = True
-  | otherwise = False
 
 absoluteValue :: (Num a) => a -> Bool
 absoluteValue x
@@ -518,8 +509,8 @@ someString = "foo"
 # Challenge?
 
 Finish this dice game (see TODO):
-
-http://lpaste.net/104237
+<br><br>
+<h1>[lpaste.net/104237](http://lpaste.net/104237)</h1>
 
 # Typeclass Syntax {.big-code}
 
